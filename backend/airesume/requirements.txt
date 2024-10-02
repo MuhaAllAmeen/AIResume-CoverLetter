@@ -1,0 +1,10 @@
+djangorestframework
+psycopg2
+dj-rest-auth
+djangorestframework-simplejwt
+dj-rest-auth
+django-allauth
+django-cors-headers
+requests
+python-dotenv
+google-generativeai

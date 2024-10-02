@@ -1,0 +1,5 @@
+node_modules
+backend/env/
+frontend/airesume/.next/
+frontend/airesume/.next
+.next/
