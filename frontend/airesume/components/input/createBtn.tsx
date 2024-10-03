@@ -10,7 +10,7 @@ const CreateBtn = ()=>{
     return(
         <>
         <button onClick={onCreateClicked} className="bg-blue-200 p-3 rounded-xl">
-          Create 
+          Cover Letter 
         </button>
         </>
     )

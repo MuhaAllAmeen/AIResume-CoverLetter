@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import SkillsOutput from "../skillsOutput"
 import { useSkills } from "../skillsContext";
-import { useDetails } from "../DetailsContext";
+import { useDetails } from "../DetailsContext"
 
 const SkillsInput = () =>{
     // const {skills,setSkills} = useSkills()
