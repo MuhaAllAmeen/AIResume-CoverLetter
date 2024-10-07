@@ -43,6 +43,7 @@ def create_CV_Details(request):
 @api_view(['POST'])
 def recieve_job_post(request):
     job_summary = request.data.get('job_summary', '')
+    action = request.data.get('action', '')
     user = request.user
     cv_details = {}
     experience_details_dict = {}
@@ -94,10 +95,13 @@ def recieve_job_post(request):
         language_details_dict[field] = getattr(language_details[0], field, None)
     cv_details['Languages'] = language_details_dict
     print(cv_details)
+    if action=="cover letter":
+        cover_letter = generate_cover_letter(cv_details=cv_details,job_summary=job_summary)
+        return JsonResponse({"success":True,"content":cover_letter})
+    else:
+        resume = generate_resume(cv_details=cv_details,job_summary=job_summary)
+        return JsonResponse({"success":True,"content":resume})
 
-    cover_letter = generate_cover_letter(cv_details=cv_details,job_summary=job_summary)
-    
-    return JsonResponse({"success":True,"content":cover_letter})
 
 
 def generate_cover_letter(cv_details,job_summary):
@@ -109,10 +113,10 @@ def generate_cover_letter(cv_details,job_summary):
     return response.text
 
 def generate_resume(cv_details, job_summary):
-    instruction = "You are a Resume writer specializing in writing resumes for software developers. You recieve the past details of the user as JSON as well as the job summary of the job the person is trying to apply to. Generate a Cover letter based on the user's details and the job summary given. Your response must Your response must be a JSON object containing the keys: Name, Phone, Email, Github Link, Skills, Experience, Projects, Education, Certifications, Languages"
+    instruction = "You are a Resume writer specializing in writing resumes for software developers. You recieve the my past details such as experiences, projects, education as JSON as well as the job summary of the job I'm applying to. Generate a Resume based on the my details and the job summary given. Try to enhance my experience according to the job summary. Your response must be a JSON object containing the keys: Name, Phone, Email, Github Link, Profile Summary, Skills, Experience, Projects, Education, Certifications, Languages"
     genai.configure(api_key=os.environ.get("API_KEY"))
     model = genai.GenerativeModel("gemini-1.5-flash",system_instruction=instruction)
-    response = model.generate_content(f"this is the summary: ${job_summary}and here are the person's details: ${cv_details}")
+    response = model.generate_content(f"this is the summary: ${job_summary}and here are the my details: ${cv_details}")
     print(response.text)
     return response.text
 

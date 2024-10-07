@@ -9,8 +9,9 @@ export default function Home() {
     <div>
       <NavBar />
       <h1 className="text-3xl font-bold mt-10 text-center">AI Resume Builder</h1>
-      <div className="mt-44 flex justify-center ">
-        <CreateBtn />
+      <div className="mt-44 flex justify-center gap-5">
+        <CreateBtn content="Cover Letter" />
+        <CreateBtn content="Resume" />
       </div>
     </div>
   );

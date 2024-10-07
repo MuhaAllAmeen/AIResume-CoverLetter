@@ -2,22 +2,34 @@
 import SpecialBtn from "@/components/specialbtn"
 import { useState } from "react"
 import apiService from "../services/api"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 
 const JobSummary = ()=>{
     const router = useRouter()
     const [summary,setSummary] = useState('')
     const [isLoading,setIsLoading] = useState(false)
+    const searchParams = useSearchParams()
+    const action = searchParams.get("action")
     async function onNext(){
         console.log("summary",summary)
         if(summary!=""){
             setIsLoading(true)
-            const response = await apiService.postContent("api/cv_details/job/",JSON.stringify({job_summary:summary}))
-            if(response.success){
-                localStorage.setItem("cover_letter",response.content)
-                setIsLoading(false)
-                router.push("/cover_letter")
-            }   
+            if(action == "Cover Letter"){
+                const response = await apiService.postContent("api/cv_details/job/",JSON.stringify({action:"cover letter",job_summary:summary}))
+                if(response.success){
+                    localStorage.setItem("cover_letter",response.content)
+                    setIsLoading(false)
+                    router.push("/cover_letter")
+                } 
+            }else{
+                const response = await apiService.postContent("api/cv_details/job/",JSON.stringify({action:"resume",job_summary:summary}))
+                if(response.success){
+                    localStorage.setItem("resume",response.content)
+                    setIsLoading(false)
+                    router.push("/resume")
+                }  
+            }
+              
         }
     }
     return(
@@ -29,7 +41,6 @@ const JobSummary = ()=>{
                     <SpecialBtn content={isLoading?"Loading...":"Next"} disabled={isLoading} id="next" onClick={onNext} link="" />
                 </div>
             </div>
-            
         </>
     )
 }
