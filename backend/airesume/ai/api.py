@@ -45,14 +45,66 @@ def recieve_job_post(request):
     job_summary = request.data.get('job_summary', '')
     action = request.data.get('action', '')
     user = request.user
+    
+    print(request.user)
+    print(job_summary)
+    cv_details = getAndReturnDetails(user=user)
+
+    print(cv_details)
+    if action=="cover letter":
+        cover_letter = generate_cover_letter(cv_details=cv_details,job_summary=job_summary)
+        return JsonResponse({"success":True,"content":cover_letter})
+    else:
+        resume = generate_resume(cv_details=cv_details,job_summary=job_summary)
+        return JsonResponse({"success":True,"content":resume})
+
+
+
+def generate_cover_letter(cv_details,job_summary):
+    instruction = "You are a cover letter writer.You will be provided with my details and the job Im trying to apply to. Generate a cover letter with the details you have and limit the letter to 4 paragraphs. Try to make the letter professional. Try to emphasize my experience and my achievements and how I would be a good fit. Start the letter with dear recruiter. Try to retrieve my name, email and phone number as well as my skills, experience and projects from the details provided to you. Give the Output in html format. Leave out the html and body tags. Try to divide content in paragraphs and give line breaks wherever necessary "
+    genai.configure(api_key=os.environ.get("API_KEY"))
+    model = genai.GenerativeModel("gemini-1.5-flash",system_instruction=instruction)
+    response = model.generate_content(f"this is the summary: ${job_summary}and here are the person's details: ${cv_details}")
+    print(response.text)
+    return response.text
+
+def generate_resume(cv_details, job_summary):
+    instruction = "You are a Resume writer specializing in writing resumes for software developers. You recieve the my past details such as experiences, projects, education as JSON as well as the job summary of the job I'm applying to. Generate a Resume based on the my details and the job summary given. Try to enhance my experience according to the job summary. Your response must be a JSON object containing the keys: Name, Phone, Email, Github Link, Profile Summary, Skills, Experience, Projects, Education, Certifications, Languages"
+    genai.configure(api_key=os.environ.get("API_KEY"))
+    model = genai.GenerativeModel("gemini-1.5-flash",system_instruction=instruction)
+    response = model.generate_content(f"this is the summary: ${job_summary}and here are the my details: ${cv_details}")
+    print(response.text)
+    return response.text
+
+
+
+    
+@api_view(['GET'])
+@permission_classes([])
+@authentication_classes([])
+def get_details(request,pk):
+    # try:
+    #     token = request.META['HTTP_AUTHORIZATION'].split('Bearer ')[1]
+    #     token = AccessToken(token)
+    #     user_id = token.payload['user_id']
+    #     user = User.objects.get(pk=user_id)
+    # except Exception as e:
+    #     user = None
+    user = User.objects.get(pk=pk)
+    
+    cv_details = getAndReturnDetails(user=user)
+    if len(cv_details)>0:
+        return JsonResponse({"success":True,"content":cv_details})
+    else:
+        return JsonResponse({"success":False})
+
+def getAndReturnDetails(user):
     cv_details = {}
     experience_details_dict = {}
     project_details_dict = {}
     education_details_dict = {}
     certification_details_dict = {}
     language_details_dict = {}
-    print(request.user)
-    print(job_summary)
 
     basic_details = Basic_Details.objects.get(user=user)
     basic_fields = [field.name for field in Basic_Details._meta.get_fields() if field.name not in ['id', 'user', 'project_id', 'education_id', 'certification_id', 'language_id']]    
@@ -94,30 +146,5 @@ def recieve_job_post(request):
     for field in language_fields:
         language_details_dict[field] = getattr(language_details[0], field, None)
     cv_details['Languages'] = language_details_dict
-    print(cv_details)
-    if action=="cover letter":
-        cover_letter = generate_cover_letter(cv_details=cv_details,job_summary=job_summary)
-        return JsonResponse({"success":True,"content":cover_letter})
-    else:
-        resume = generate_resume(cv_details=cv_details,job_summary=job_summary)
-        return JsonResponse({"success":True,"content":resume})
 
-
-
-def generate_cover_letter(cv_details,job_summary):
-    instruction = "You are a cover letter writer.You will be provided with my details and the job Im trying to apply to. Generate a cover letter with the details you have and limit the letter to 4 paragraphs. Try to make the letter professional. Try to emphasize my experience and my achievements and how I would be a good fit. Start the letter with dear recruiter. Try to retrieve my name, email and phone number as well as my skills, experience and projects from the details provided to you. Give the Output in html format. Leave out the html and body tags. Try to divide content in paragraphs and give line breaks wherever necessary "
-    genai.configure(api_key=os.environ.get("API_KEY"))
-    model = genai.GenerativeModel("gemini-1.5-flash",system_instruction=instruction)
-    response = model.generate_content(f"this is the summary: ${job_summary}and here are the person's details: ${cv_details}")
-    print(response.text)
-    return response.text
-
-def generate_resume(cv_details, job_summary):
-    instruction = "You are a Resume writer specializing in writing resumes for software developers. You recieve the my past details such as experiences, projects, education as JSON as well as the job summary of the job I'm applying to. Generate a Resume based on the my details and the job summary given. Try to enhance my experience according to the job summary. Your response must be a JSON object containing the keys: Name, Phone, Email, Github Link, Profile Summary, Skills, Experience, Projects, Education, Certifications, Languages"
-    genai.configure(api_key=os.environ.get("API_KEY"))
-    model = genai.GenerativeModel("gemini-1.5-flash",system_instruction=instruction)
-    response = model.generate_content(f"this is the summary: ${job_summary}and here are the my details: ${cv_details}")
-    print(response.text)
-    return response.text
-
-    
+    return cv_details

@@ -23,15 +23,7 @@ const ExperienceDetails = ()=>{
         router.replace('/project_details')
         
     }
-    // useEffect(()=>{
-    //     if (details.size>5){
-    //         details.forEach((value,key)=>{
-    //             sessionStorage.setItem(key,value)
-    //         })
-    //         router.replace('/project_details')
-    //     }
-        
-    // },[details])
+
     return (
         <>
             <div className="flex flex-col gap-4 justify-center items-center min-h-screen">
@@ -41,10 +33,6 @@ const ExperienceDetails = ()=>{
                 
             </div>
             
-                {/* <ExperienceInput />   
-                <ProjectInput />
-                <EducationInput />
-                    */}
         </>
     )
 }
