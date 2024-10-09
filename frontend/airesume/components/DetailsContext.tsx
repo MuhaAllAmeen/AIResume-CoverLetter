@@ -12,7 +12,7 @@ interface Certification{
 }
 
 interface DetailsContextType {
-    details: Map<string, string>;
+    details: Map<string, any>;
     setDetails: React.Dispatch<React.SetStateAction<Map<string, string>>>;
     skills: string[];
     setSkills: React.Dispatch<React.SetStateAction<string[]>>;
@@ -25,14 +25,14 @@ interface DetailsContextType {
 const DetailsContext = createContext<DetailsContextType | undefined>(undefined);
 
 export const DetailsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [details, setDetails] = useState(new Map<string, string>());
+    const [details, setDetails] = useState(new Map<string, any>());
     const [skills, setSkills] = useState<string[]>([]);
     const [certifications, setCertifications] = useState<Certification[]>([]);
     const [languages, setLanguages] = useState<LanguageType[]>([]);
 
     useEffect(() => {
         // Load details from sessionStorage on mount
-        let detailMap = new Map<string,string>()
+        let detailMap = new Map<string,any>()
         for (let i=0; i<= sessionStorage.length ; i++){
             let key = sessionStorage.key(i)
             if (key!=null){

@@ -1,45 +1,57 @@
 'use client'
 import { useDetails } from "@/components/DetailsContext";
 import EducationInput from "@/components/input/educationInput";
+import SpecialBtn from "@/components/specialbtn";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const EducationDetails = ()=>{
     const router = useRouter()
     const { details, setDetails } = useDetails();
+    const [educationInputList,setEducationInputList] = useState([<EducationInput onChange={saveEducationDetails}/>])
+    const [educationList,setEducationList] = useState<Array<Map<string,string>>>([])
+
     function saveEducationDetails(educationDetails:Map<string,string>){
         console.log(educationDetails)
-        const updatedDetails = new Map(details);
-        educationDetails.forEach((value, key) => {
-            updatedDetails.set(key, value);
-        });
-        setDetails(updatedDetails);
-        router.replace('/additional_details')
+        setEducationList((eduList)=>[...eduList,educationDetails])  
+    }
 
-        
+    function onNextClicked(){
+        const updatedDetails = new Map(details);
+        if (educationList.length > 0) {
+            const educationArray = educationList.map(exp => {
+                const obj: Record<string, string> = {};
+                exp.forEach((value, key) => {
+                    obj[key] = value;
+                });
+                return obj;
+            });
+            updatedDetails.set("Education", JSON.stringify(educationArray));
+            setDetails(updatedDetails);
+            router.replace('/additional_details')
+        } else {
+            alert("Please press confirm")
+        }    
+
     }
     // useEffect(()=>{
-    //     if(details.size>15){
-    //         details.forEach((value,key)=>{
-    //             sessionStorage.setItem(key,value)
-    //         })
-    //         router.replace('/additional_details')
-    //     }
         
     // },[details])
     return (
         <>
             <div className="flex flex-col gap-4 justify-center items-center min-h-screen">
                 <div className="border-2 bg-slate-400 rounded-xl shadow-xl shadow-black p-4 w-[1000px]">
-                    <EducationInput onChange={saveEducationDetails} />
-                </div>
-                
+                    {educationInputList.map((eduInput,index)=>{
+                        return(
+                            <div key={index}>{eduInput}</div>
+                        )
+                    })}
+                    <button onClick={()=>setEducationInputList((expList)=>[...expList,<EducationInput onChange={saveEducationDetails} />])} className="font-bold mt-5 ml-10 hover:bg-gray-500 px-4 rounded-md transition-colors">Add More</button>
+                    <div className="relative float-right mt-20">
+                        <SpecialBtn onClick={onNextClicked} link="cv_details/additional_details" content="Next" type="button" id="next"/>                    
+                    </div>
+                </div>      
             </div>
-            
-                {/* <ExperienceInput />   
-                <ProjectInput />
-                <EducationInput />
-                    */}
         </>
     )
 }

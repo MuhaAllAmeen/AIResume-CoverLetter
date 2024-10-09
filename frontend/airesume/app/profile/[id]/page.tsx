@@ -14,8 +14,7 @@ const Profile = async ({params}:{params:{id:string}}) =>{
                 <div className="bg-green-200 w-[800px] py-5 px-5 rounded-sm">
                     <ProfileDetails content={details.content} /> 
                 </div>
-            </div>
-            
+            </div>   
         </main>
                
         </>

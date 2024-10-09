@@ -1,12 +1,7 @@
 'use client'
 import { useDetails } from "@/components/DetailsContext"
 import BasicDetailsInput from "@/components/input/basicDetailsInput"
-import EducationInput from "@/components/input/educationInput"
-import ExperienceInput from "@/components/input/experienceInput"
-import ProjectInput from "@/components/input/projectInput"
-import SpecialBtn from "@/components/specialbtn"
 import { useRouter } from "next/navigation"
-import { useCallback, useEffect } from "react"
 
 const CVDetails = ()=>{
     const router = useRouter()
@@ -18,14 +13,7 @@ const CVDetails = ()=>{
         router.replace('/experience_details');
 
     }
-    // useEffect(() => {
-    //     if (details.size > 0) {
-    //         details.forEach((value, key) => {
-    //             sessionStorage.setItem(key, value);
-    //         });
-    //         router.replace('/experience_details');
-    //     }
-    // }, [details]);
+
     return (
         <>
             <div className="flex flex-col gap-4 justify-center items-center min-h-screen">

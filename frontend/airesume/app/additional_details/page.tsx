@@ -1,7 +1,6 @@
 'use client'
 import CertificationInputHandler from "@/components/CertificationInputHandler"
 import { useDetails } from "@/components/DetailsContext"
-import CertificationInput from "@/components/input/certificationInput"
 import LanguagesInput from "@/components/input/languagesInput"
 import SkillsInput from "@/components/input/skillsInput"
 import { SkillsProvider } from "@/components/skillsContext"
@@ -9,7 +8,6 @@ import SkillsOutput from "@/components/skillsOutput"
 import SpecialBtn from "@/components/specialbtn"
 import { useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
-import apiService from "../services/api"
 import { sendDetailstoBackend } from "../services/sendOrGetDetails"
 
 const AdditionalDetails =()=>{

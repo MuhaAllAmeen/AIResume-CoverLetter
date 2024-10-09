@@ -11,7 +11,9 @@ const ProjectInput:React.FC<ProjectInputProps> = ({onChange})=>{
     const[projectLink,setProjectLink] = useState('')
     const[technologiesUsed,setTechnologiesUsed] = useState('')
     const[projectDescription,setProjectDescription] = useState('')
-    function onNextClicked(): void {
+    const[confirm,setConfirm] = useState(false)
+    
+    function onConfirmClicked(): void {
         const projectDetailsMap = new Map<string,string>()
         projectDetailsMap.set('project_name',projectName)
         projectDetailsMap.set('project_link',projectLink)
@@ -28,17 +30,18 @@ const ProjectInput:React.FC<ProjectInputProps> = ({onChange})=>{
                     Projects
                 </h2>
                 <div className="flex justify-evenly">
-                    <input onChange={(e)=>setProjectName(e.target.value)} className="border-2 border-black rounded-md p-1" type="text" placeholder="Project Name" />
-                    <input onChange={(e)=>setProjectLink(e.target.value)} className="border-2 border-black rounded-md p-1" type="text" placeholder="Project Link" />
-                    <input onChange={(e)=>setTechnologiesUsed(e.target.value)} className="border-2 border-black rounded-md p-1" type="text" placeholder="Technologies Used" />
+                    <input onChange={(e)=>{setProjectName(e.target.value); setConfirm(false)}} className="border-2 border-black rounded-md p-1" type="text" placeholder="Project Name" />
+                    <input onChange={(e)=>{setProjectLink(e.target.value); setConfirm(false)}} className="border-2 border-black rounded-md p-1" type="text" placeholder="Project Link" />
+                    <input onChange={(e)=>{setTechnologiesUsed(e.target.value); setConfirm(false)}} className="border-2 border-black rounded-md p-1" type="text" placeholder="Technologies Used" />
                 </div>
                 <div className="mt-7 flex flex-col items-center">
                     <h3 className="self-start">Description</h3>
-                    <textarea onChange={(e)=>setProjectDescription(e.target.value)} className="border-2 border-black rounded-md p-1 w-full h-[150px] resize-none " name="project desc" id="project"></textarea>
+                    <textarea onChange={(e)=>{setProjectDescription(e.target.value); setConfirm(false)}} className="border-2 border-black rounded-md p-1 w-full h-[150px] resize-none " name="project desc" id="project"></textarea>
                 </div>
-                <div className="relative float-right mt-20">
-                    <SpecialBtn onClick={onNextClicked} link="cv_details/additional_details" content="Next" type="button" id="next"/>                    
+                <div className="float-right mt-3">
+                    <button onClick={()=>{setConfirm(true); onConfirmClicked()}} className={`${confirm ? "text-green-600" : "text-red-500"} font-bold`}>{confirm ? "Confirmed":"Confirm"}</button>
                 </div>
+                
             </div>
         </>
     )

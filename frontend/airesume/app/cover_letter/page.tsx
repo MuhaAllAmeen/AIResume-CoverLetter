@@ -1,7 +1,6 @@
 'use client'
 import jsPDF from "jspdf";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const CoverLetter=()=>{
 
