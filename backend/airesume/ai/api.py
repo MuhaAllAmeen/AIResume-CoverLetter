@@ -1,7 +1,7 @@
 import os
 from django.http import JsonResponse
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from .form import BasicDetailsForm, ExperienceFormSet, ProjectFormSet, EducationFormSet, LanguagesForm, CertificationsForm
+from .form import BasicDetailsForm, ExperienceFormSet, ProjectFormSet, EducationFormSet, LanguagesFormSet, CertificationFormSet
 from .models import Basic_Details,Experience,Projects,Education,Languages,Certification
 from .serializers import CVDetailSerializer
 from useraccount.models import User
@@ -14,10 +14,10 @@ def create_CV_Details(request):
     experience_formset = ExperienceFormSet(request.POST,prefix="experience")
     projects_formset = ProjectFormSet(request.POST,prefix="project")
     education_formset = EducationFormSet(request.POST,prefix="education")
-    languages_form = LanguagesForm(request.POST)
-    certifications_form = CertificationsForm(request.POST)
-    print(basic_details_form, experience_formset, projects_formset, education_formset)
-    if basic_details_form.is_valid and experience_formset.is_valid and projects_formset.is_valid and education_formset.is_valid and languages_form.is_valid and certifications_form.is_valid:
+    languages_formset = LanguagesFormSet(request.POST,prefix="language")
+    certifications_formset = CertificationFormSet(request.POST,prefix="certification")
+    print(basic_details_form, experience_formset, certifications_formset, languages_formset)
+    if basic_details_form.is_valid and experience_formset.is_valid and projects_formset.is_valid and education_formset.is_valid and languages_formset.is_valid and certifications_formset.is_valid:
         basic_details = basic_details_form.save(commit=False)
         basic_details.user = request.user
         basic_details.save()
@@ -37,13 +37,15 @@ def create_CV_Details(request):
             education.user = request.user
             education.save()
 
-        languages_details = languages_form.save(commit=False)
-        languages_details.user = request.user
-        languages_details.save()
+        languages_details = languages_formset.save(commit=False)
+        for language in languages_details:
+            language.user = request.user
+            language.save()
 
-        certifications_details = certifications_form.save(commit=False)
-        certifications_details.user = request.user
-        certifications_details.save()
+        certifications_details = certifications_formset.save(commit=False)
+        for certification in certifications_details:
+            certification.user = request.user
+            certification.save()
 
         return JsonResponse({"success":True})
     else:

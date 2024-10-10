@@ -6,43 +6,7 @@ export async function sendDetailstoBackend(){
         for (let i = 0; i <= sessionStorage.length; i++){
             let key = sessionStorage.key(i)
             if (key!=null && !key.endsWith("Number")){
-                if (key=="certifications"){
-                    const s = sessionStorage.getItem(key)
-                    s?.trim().split(",").forEach((sp) => {
-                        if (sp.trim() !== "") {
-                          sp.trim().split("and").forEach((part) => {
-                            const [key, value] = part.split(": ").map(str => str.trim());
-                            if (key && value) {
-                              // Append only values (names and links)
-                              if (key.toLowerCase().includes("certification name")) {
-                                formData.append('certification_name', value);
-                              } else if (key.toLowerCase().includes("certification link")) {
-                                formData.append('certification_link', value);
-                              }
-                            }
-                          });
-                        }
-                      });
-                }else if(key=="languages"){
-                    const s = sessionStorage.getItem(key)
-                    s?.trim().split(",").forEach((sp) => {
-                        if (sp.trim() !== "") {
-                          sp.trim().split("and").forEach((part) => {
-                            const [key, value] = part.split(": ").map(str => str.trim());
-                            if (key && value) {
-                              // Append only values (names and links)
-                              if (key.toLowerCase().includes("language name")) {
-                                formData.append('language_name', value);
-                              } else if (key.toLowerCase().includes("language fluency")) {
-                                formData.append('language_fluency', value);
-                              }
-                            }
-                          });
-                        }
-                      });
-                }else{
-                    formData.set(key, sessionStorage.getItem(key) || '')
-                }
+               formData.set(key, sessionStorage.getItem(key) || '')
             }
         }
         formData.append('experience-TOTAL_FORMS', sessionStorage.getItem("ExperienceNumber") || "0");
@@ -57,6 +21,14 @@ export async function sendDetailstoBackend(){
         formData.append('project-INITIAL_FORMS', '0');
         formData.append('project-MIN_NUM_FORMS', '1');
         formData.append('project-MAX_NUM_FORMS', '10');
+        formData.append('certification-TOTAL_FORMS', sessionStorage.getItem("CertificationNumber") || "0"); // For ProjectsFormSet
+        formData.append('certification-INITIAL_FORMS', '0');
+        formData.append('certification-MIN_NUM_FORMS', '1');
+        formData.append('certification-MAX_NUM_FORMS', '10');
+        formData.append('language-TOTAL_FORMS', sessionStorage.getItem("LanguageNumber") || "0"); // For ProjectsFormSet
+        formData.append('language-INITIAL_FORMS', '0');
+        formData.append('language-MIN_NUM_FORMS', '1');
+        formData.append('language-MAX_NUM_FORMS', '10');
         formData.forEach((value, key) => {
             console.log(`form ${key}: ${value}`);
           });

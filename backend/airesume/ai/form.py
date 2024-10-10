@@ -62,6 +62,8 @@ class CertificationsForm(ModelForm):
             'certification_link',
             'certification_name'
         )
+CertificationFormSet = modelformset_factory(Certification, form=CertificationsForm, extra=1)
+
 
 class LanguagesForm(ModelForm):
     class Meta:
@@ -70,6 +72,8 @@ class LanguagesForm(ModelForm):
             'language_name',
             'language_fluency'
         )
+LanguagesFormSet = modelformset_factory(Languages, form=LanguagesForm, extra=1)
+
 
 
 

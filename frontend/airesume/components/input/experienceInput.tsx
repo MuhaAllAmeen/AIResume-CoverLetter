@@ -49,7 +49,7 @@ const ExperienceInput:React.FC<ExperienceInputProps> = ({onChange,index}) =>{
                         <input onChange={(e)=>{
                             setStillWorking(e.target.checked);
                             setConfirm(false);
-                            (document.getElementsByName('endingDateInput')[0] as HTMLInputElement).disabled = e.target.checked
+                            (document.getElementsByName('endingDateInput')[index] as HTMLInputElement).disabled = e.target.checked
                             }} type="checkbox" name="still-working"/>
                         <label htmlFor="still-working">Still Working</label>
                     </div>

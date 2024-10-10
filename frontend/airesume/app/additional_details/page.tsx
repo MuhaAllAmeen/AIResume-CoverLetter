@@ -45,17 +45,22 @@ const AdditionalDetails =()=>{
 
     async function saveAdditionalDetails(){
         const additionalDetails = new Map<string,string>()
-        let certificationString:string = ''
-        let languagesString:string = ''
+
         additionalDetails.set('skills',skills.toString())
+        
         certifications.forEach((cert,index)=>{
-            certificationString += `Certification Name ${index+1}: ${cert.name} and Certification Link ${index+1}: ${cert.link} , `
+            additionalDetails.set(`certification-${index}-certification_name`,cert.name)
+            additionalDetails.set(`certification-${index}-certification_link`,cert.link)
         })
+        additionalDetails.set("CertificationNumber",certifications.length.toString())
+
         languages.forEach((lang,index)=>{
-            languagesString += `Language Name ${index+1}: ${lang.name} and Language fluency ${index+1}: ${lang.fluency} , `
+            additionalDetails.set(`language-${index}-language_name`,lang.name)
+            additionalDetails.set(`language-${index}-language_fluency`,lang.fluency)
         })
-        additionalDetails.set('certifications',certificationString)
-        additionalDetails.set('languages',languagesString)
+        additionalDetails.set("LaguageNumber",languages.length.toString())
+
+
         const updatedDetails = new Map(details);
         additionalDetails.forEach((value, key) => {
             updatedDetails.set(key, value);
