@@ -2,9 +2,10 @@ import { useState } from "react"
 import SpecialBtn from "../specialbtn"
 
 interface EducationInputProps{
-    onChange: (educationDetails:Map<string,any>)=>void
+    onChange: (educationDetails:Map<string,any>,index:number)=>void
+    index:number
 }
-const EducationInput:React.FC<EducationInputProps> = ({onChange})=>{
+const EducationInput:React.FC<EducationInputProps> = ({onChange,index})=>{
     
     const[universityName,setUniversityName] = useState('')
     const[typeOfCourse,setTypeOfCourse] = useState('')
@@ -16,14 +17,15 @@ const EducationInput:React.FC<EducationInputProps> = ({onChange})=>{
 
     function onConfirmClicked(): void {
         const educationDetailsMap = new Map<string,any>()
-        educationDetailsMap.set('education_name',universityName)
-        educationDetailsMap.set('education_course',typeOfCourse)
-        educationDetailsMap.set('education_field_of_study',fieldOfStudy)
-        educationDetailsMap.set('start_date',educationStartDate)
-        educationDetailsMap.set('end_date',educationEndDate)
-        educationDetailsMap.set('education_summary',educationSummary)
+        const formNumber = `education-${index.toString()}-`
+        educationDetailsMap.set(formNumber+'education_name',universityName)
+        educationDetailsMap.set(formNumber+'education_course',typeOfCourse)
+        educationDetailsMap.set(formNumber+'education_field_of_study',fieldOfStudy)
+        educationDetailsMap.set(formNumber+'start_date',educationStartDate)
+        educationDetailsMap.set(formNumber+'end_date',educationEndDate)
+        educationDetailsMap.set(formNumber+'education_summary',educationSummary)
 
-        onChange(educationDetailsMap)
+        onChange(educationDetailsMap,index)
 
 
     }

@@ -1,7 +1,7 @@
 import os
 from django.http import JsonResponse
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from .form import BasicDetailsForm, ExperienceForm, ProjectsForm, EducationForm, LanguagesForm, CertificationsForm
+from .form import BasicDetailsForm, ExperienceFormSet, ProjectFormSet, EducationFormSet, LanguagesForm, CertificationsForm
 from .models import Basic_Details,Experience,Projects,Education,Languages,Certification
 from .serializers import CVDetailSerializer
 from useraccount.models import User
@@ -11,31 +11,40 @@ import google.generativeai as genai
 @api_view(['POST'])
 def create_CV_Details(request):
     basic_details_form = BasicDetailsForm(request.POST)
-    experience_form = ExperienceForm(request.POST)
-    projects_form = ProjectsForm(request.POST)
-    education_form = EducationForm(request.POST)
+    experience_formset = ExperienceFormSet(request.POST,prefix="experience")
+    projects_formset = ProjectFormSet(request.POST,prefix="project")
+    education_formset = EducationFormSet(request.POST,prefix="education")
     languages_form = LanguagesForm(request.POST)
     certifications_form = CertificationsForm(request.POST)
-    print(basic_details_form, experience_form)
-    if basic_details_form.is_valid and experience_form.is_valid and projects_form.is_valid and education_form.is_valid and languages_form.is_valid and certifications_form.is_valid:
+    print(basic_details_form, experience_formset, projects_formset, education_formset)
+    if basic_details_form.is_valid and experience_formset.is_valid and projects_formset.is_valid and education_formset.is_valid and languages_form.is_valid and certifications_form.is_valid:
         basic_details = basic_details_form.save(commit=False)
         basic_details.user = request.user
         basic_details.save()
-        experience_details = experience_form.save(commit=False)
-        experience_details.user = request.user
-        experience_details.save()
-        projects_details = projects_form.save(commit=False)
-        projects_details.user = request.user
-        projects_details.save()
-        education_details = education_form.save(commit=False)
-        education_details.user = request.user
-        education_details.save()
+
+        experience_details = experience_formset.save(commit=False)
+        for experience in experience_details:
+            experience.user = request.user
+            experience.save()
+
+        projects_details = projects_formset.save(commit=False)
+        for project in projects_details:
+            project.user = request.user
+            project.save()
+
+        education_details = education_formset.save(commit=False)
+        for education in education_details:
+            education.user = request.user
+            education.save()
+
         languages_details = languages_form.save(commit=False)
         languages_details.user = request.user
         languages_details.save()
+
         certifications_details = certifications_form.save(commit=False)
         certifications_details.user = request.user
         certifications_details.save()
+
         return JsonResponse({"success":True})
     else:
         return JsonResponse({'errors': basic_details_form.errors.as_json()}, status=400)
@@ -100,51 +109,71 @@ def get_details(request,pk):
 
 def getAndReturnDetails(user):
     cv_details = {}
-    experience_details_dict = {}
-    project_details_dict = {}
-    education_details_dict = {}
-    certification_details_dict = {}
-    language_details_dict = {}
-
-    basic_details = Basic_Details.objects.get(user=user)
-    basic_fields = [field.name for field in Basic_Details._meta.get_fields() if field.name not in ['id', 'user', 'project_id', 'education_id', 'certification_id', 'language_id']]    
+    experience_details_list = []
+    project_details_list = []
+    education_details_list = []
+    certification_details_list = []
+    language_details_list = []
     
-    experience_details = Experience.objects.filter(user=user)
-    experience_fields = [field.name for field in Experience._meta.get_fields() if field.name not in ['id', 'user', 'project_id', 'education_id', 'certification_id', 'language_id']]
+    try:
 
-    project_details = Projects.objects.filter(user=user)
-    project_fields = [field.name for field in Projects._meta.get_fields() if field.name not in ['id', 'user', 'project_id', 'education_id', 'certification_id', 'language_id']]
+        basic_details = Basic_Details.objects.get(user=user)
+        basic_fields = [field.name for field in Basic_Details._meta.get_fields() if field.name not in ['id', 'user', 'project_id', 'education_id', 'certification_id', 'language_id']]    
+        
+        experience_details = Experience.objects.filter(user=user)
+        experience_fields = [field.name for field in Experience._meta.get_fields() if field.name not in ['id', 'user', 'project_id', 'education_id', 'certification_id', 'language_id']]
 
-    education_details = Education.objects.filter(user=user)
-    education_fields = [field.name for field in Education._meta.get_fields() if field.name not in ['id', 'user', 'project_id', 'education_id', 'certification_id', 'language_id']]
+        project_details = Projects.objects.filter(user=user)
+        project_fields = [field.name for field in Projects._meta.get_fields() if field.name not in ['id', 'user', 'project_id', 'education_id', 'certification_id', 'language_id']]
 
-    certification_details = Certification.objects.filter(user=user)
-    certification_fields = [field.name for field in Certification._meta.get_fields() if field.name not in ['id', 'user', 'project_id', 'education_id', 'certification_id', 'language_id']]
+        education_details = Education.objects.filter(user=user)
+        education_fields = [field.name for field in Education._meta.get_fields() if field.name not in ['id', 'user', 'project_id', 'education_id', 'certification_id', 'language_id']]
 
-    language_details = Languages.objects.filter(user=user)
-    language_fields = [field.name for field in Languages._meta.get_fields() if field.name not in ['id', 'user', 'project_id', 'education_id', 'certification_id', 'language_id']]
+        certification_details = Certification.objects.filter(user=user)
+        certification_fields = [field.name for field in Certification._meta.get_fields() if field.name not in ['id', 'user', 'project_id', 'education_id', 'certification_id', 'language_id']]
 
-    for field in basic_fields:
-        cv_details[field] = getattr(basic_details, field, None)
-    
-    for field in experience_fields:
-        experience_details_dict[field] = getattr(experience_details[0], field, None)
-    cv_details['Experience'] = experience_details_dict
-    
-    for field in project_fields:
-        project_details_dict[field] = getattr(project_details[0], field, None)
-    cv_details['Projects'] = project_details_dict
+        language_details = Languages.objects.filter(user=user)
+        language_fields = [field.name for field in Languages._meta.get_fields() if field.name not in ['id', 'user', 'project_id', 'education_id', 'certification_id', 'language_id']]
 
-    for field in education_fields:
-        education_details_dict[field] = getattr(education_details[0], field, None)
-    cv_details['Education'] = education_details_dict
-    
-    for field in certification_fields:
-        certification_details_dict[field] = getattr(certification_details[0], field, None)
-    cv_details['Certifications'] = certification_details_dict
-    
-    for field in language_fields:
-        language_details_dict[field] = getattr(language_details[0], field, None)
-    cv_details['Languages'] = language_details_dict
+        for field in basic_fields:
+            cv_details[field] = getattr(basic_details, field, None)
+        
+        for experience in experience_details:
+            experience_details_dict = {}
+            for field in experience_fields:
+                experience_details_dict[field] = getattr(experience, field, None)
+            experience_details_list.append(experience_details_dict)
+        cv_details['Experience'] = experience_details_list
+        
+        for project in project_details:
+            project_details_dict = {}
+            for field in project_fields:
+                project_details_dict[field] = getattr(project, field, None)
+            project_details_list.append(project_details_dict)
+        cv_details['Projects'] = project_details_list
+
+        for education in education_details:
+            education_details_dict = {}
+            for field in education_fields:
+                education_details_dict[field] = getattr(education, field, None)
+            education_details_list.append(education_details_dict)
+        cv_details['Education'] = education_details_list
+        
+        for certification in certification_details:
+            certification_details_dict = {}
+            for field in certification_fields:
+                certification_details_dict[field] = getattr(certification, field, None)
+            certification_details_list.append(certification_details_dict)
+        cv_details['Certifications'] = certification_details_list
+        
+        for language in language_details:
+            language_details_dict = {}
+            for field in language_fields:
+                language_details_dict[field] = getattr(language, field, None)
+            language_details_list.append(language_details_dict)
+        cv_details['Languages'] = language_details_list
+    except:
+        return cv_details
+
 
     return cv_details

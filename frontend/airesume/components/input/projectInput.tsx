@@ -2,10 +2,11 @@ import { useState } from "react"
 import SpecialBtn from "../specialbtn"
 
 interface ProjectInputProps{
-    onChange:(projectDetails:Map<string,string>)=> void
+    onChange:(projectDetails:Map<string,string>, index:number)=> void
+    index:number
 }
 
-const ProjectInput:React.FC<ProjectInputProps> = ({onChange})=>{
+const ProjectInput:React.FC<ProjectInputProps> = ({onChange,index})=>{
     
     const[projectName,setProjectName] = useState('')
     const[projectLink,setProjectLink] = useState('')
@@ -15,12 +16,13 @@ const ProjectInput:React.FC<ProjectInputProps> = ({onChange})=>{
     
     function onConfirmClicked(): void {
         const projectDetailsMap = new Map<string,string>()
-        projectDetailsMap.set('project_name',projectName)
-        projectDetailsMap.set('project_link',projectLink)
-        projectDetailsMap.set('project_technologies_used',technologiesUsed)
-        projectDetailsMap.set('project_description',projectDescription)
+        const formNumber = `project-${index.toString()}-`
+        projectDetailsMap.set(formNumber+'project_name',projectName)
+        projectDetailsMap.set(formNumber+'project_link',projectLink)
+        projectDetailsMap.set(formNumber+'project_technologies_used',technologiesUsed)
+        projectDetailsMap.set(formNumber+'project_description',projectDescription)
 
-        onChange(projectDetailsMap)
+        onChange(projectDetailsMap,index)
     }
 
     return(

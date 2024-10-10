@@ -8,27 +8,38 @@ import { useEffect, useState } from "react"
 const ExperienceDetails = ()=>{
     const router = useRouter()
     const { details, setDetails } = useDetails();
-    const [experienceInputList,setExperienceInputList] = useState([<ExperienceInput onChange={saveExperienceDetails}/>])
+    const [experienceInputList,setExperienceInputList] = useState([<ExperienceInput index={0} onChange={saveExperienceDetails}/>])
     const [experienceList,setExperienceList] = useState<Array<Map<string,string>>>([])
     
     useEffect(()=>{
-        console.log('expList',experienceList)
+        console.log('expList',experienceList,experienceList.length)
     },[experienceList])
-    function saveExperienceDetails(experienceDetails:Map<string,string>){
-        setExperienceList((expList)=>[...expList, experienceDetails])     
+
+    function saveExperienceDetails(experienceDetails:Map<string,string>,index:number){
+        if(experienceList.at(index)==null){
+            setExperienceList((expList)=>[...expList, experienceDetails])     
+        }else{
+            setExperienceList((expList)=>{
+                expList[index]=experienceDetails
+                return expList
+            })
+        }
     }
+
     function onNextClicked(){
-        console.log('e',experienceList,JSON.stringify(experienceList))
         const updatedDetails = new Map(details);
         if (experienceList.length > 0) {
+            sessionStorage.setItem("ExperienceNumber",experienceList.length.toString())
+            console.log(experienceList)
             const experienceArray = experienceList.map(exp => {
-                const obj: Record<string, string> = {};
+                // const obj: Record<string, string> = {};
                 exp.forEach((value, key) => {
-                    obj[key] = value;
+                    // obj[key] = value;
+                    updatedDetails.set(key,value)
                 });
-                return obj;
+                // return obj;
             });
-            updatedDetails.set("Experiences", JSON.stringify(experienceArray));
+            // updatedDetails.set("Experiences", JSON.stringify(experienceArray));
             setDetails(updatedDetails);
             router.push('/project_details')
         } else {
@@ -44,10 +55,10 @@ const ExperienceDetails = ()=>{
                 <div className="border-2 bg-slate-400 rounded-xl shadow-xl shadow-black p-4 w-[1000px]">
                     {experienceInputList.map((expInput,index)=>{
                         return(
-                            <div key={index}><ExperienceInput onChange={saveExperienceDetails}/></div>
+                            <div key={index}><ExperienceInput index={index} onChange={saveExperienceDetails}/></div>
                         )
                     })}
-                    <button onClick={()=>setExperienceInputList((expList)=>[...expList,<ExperienceInput onChange={saveExperienceDetails} />])} className="font-bold mt-5 ml-10 hover:bg-gray-500 px-4 rounded-md transition-colors">Add More</button>
+                    <button onClick={()=>setExperienceInputList((expList)=>[...expList,<ExperienceInput index={expList.length} onChange={saveExperienceDetails} />])} className="font-bold mt-5 ml-10 hover:bg-gray-500 px-4 rounded-md transition-colors">Add More</button>
                     <div className="relative float-right mt-20">
                         <SpecialBtn onClick={onNextClicked} link="cv_details/additional_details" content="Next" type="button" id="next"/>                    
                     </div>

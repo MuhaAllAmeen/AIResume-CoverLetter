@@ -13,6 +13,7 @@ const DisplayProjects:React.FC<DisplayProjectsProps> = ({projects})=>{
         <>
             <div className="bg-green-600 w-full px-12 py-5 rounded-md">
                 {projects.map((project,index)=>{
+                    project = new Map(Object.entries(project))
                     return(
                         <div key={index}>
                         <label htmlFor="">Project {index+1}</label>

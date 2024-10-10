@@ -14,6 +14,7 @@ const DisplayExperience:React.FC<DisplayExperienceProps> = ({experiences})=>{
         <>
         <div className="bg-green-600 w-full px-12 py-5 rounded-md">
             {experiences.map((exp,index)=>{
+                exp = new Map(Object.entries(exp))
                 return(
                     <div key={index}>
                         <label htmlFor="">Experience {index+1}</label>

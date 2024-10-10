@@ -2,10 +2,11 @@ import { useState } from "react";
 import SpecialBtn from "../specialbtn";
 
 interface ExperienceInputProps{
-    onChange: (experienceDetails:Map<string,any>)=> void;
+    onChange: (experienceDetails:Map<string,any>,index:number)=> void;
+    index:number
 }
 
-const ExperienceInput:React.FC<ExperienceInputProps> = ({onChange}) =>{
+const ExperienceInput:React.FC<ExperienceInputProps> = ({onChange,index}) =>{
     const [designation,setDesignation] = useState('')
     const [companyName,setCompanyName] = useState('')
     const [location,setLocation] = useState('')
@@ -17,18 +18,19 @@ const ExperienceInput:React.FC<ExperienceInputProps> = ({onChange}) =>{
 
     function onConfirmClicked(){
         const experienceDetailsMap = new Map<string,any>()
-        experienceDetailsMap.set('designation',designation)
-        experienceDetailsMap.set('company_name',companyName)
-        experienceDetailsMap.set('location',location)
-        experienceDetailsMap.set('start_date',startingDate)
+        const formNumber = `experience-${index.toString()}-`
+        experienceDetailsMap.set(formNumber+'designation',designation)
+        experienceDetailsMap.set(formNumber+'company_name',companyName)
+        experienceDetailsMap.set(formNumber+'location',location)
+        experienceDetailsMap.set(formNumber+'start_date',startingDate)
         if (!stillWorking){
-            experienceDetailsMap.set('end_date',endingDate)
-            experienceDetailsMap.set('still_working',stillWorking)
+            experienceDetailsMap.set(formNumber+'end_date',endingDate)
+            experienceDetailsMap.set(formNumber+'still_working',stillWorking)
         }else{
-            experienceDetailsMap.set('still_working',stillWorking)
+            experienceDetailsMap.set(formNumber+'still_working',stillWorking)
         }
-        experienceDetailsMap.set('experience_summary',summary)
-        onChange(experienceDetailsMap)
+        experienceDetailsMap.set(formNumber+'experience_summary',summary)
+        onChange(experienceDetailsMap,index)
         console.log("ex",experienceDetailsMap)
 
     }

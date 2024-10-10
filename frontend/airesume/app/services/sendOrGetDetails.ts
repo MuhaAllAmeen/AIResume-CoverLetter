@@ -5,7 +5,7 @@ export async function sendDetailstoBackend(){
         const formData = new FormData()
         for (let i = 0; i <= sessionStorage.length; i++){
             let key = sessionStorage.key(i)
-            if (key!=null){
+            if (key!=null && !key.endsWith("Number")){
                 if (key=="certifications"){
                     const s = sessionStorage.getItem(key)
                     s?.trim().split(",").forEach((sp) => {
@@ -45,6 +45,18 @@ export async function sendDetailstoBackend(){
                 }
             }
         }
+        formData.append('experience-TOTAL_FORMS', sessionStorage.getItem("ExperienceNumber") || "0");
+        formData.append('experience-INITIAL_FORMS', '0'); // Assuming no initial forms
+        formData.append('experience-MIN_NUM_FORMS', '1'); // Minimum number of forms
+        formData.append('experience-MAX_NUM_FORMS', '10');
+        formData.append('education-TOTAL_FORMS', sessionStorage.getItem("EducationNumber") || "0"); // For ProjectsFormSet
+        formData.append('education-INITIAL_FORMS', '0');
+        formData.append('education-MIN_NUM_FORMS', '1');
+        formData.append('education-MAX_NUM_FORMS', '10');
+        formData.append('project-TOTAL_FORMS', sessionStorage.getItem("ProjectNumber") || "0"); // For ProjectsFormSet
+        formData.append('project-INITIAL_FORMS', '0');
+        formData.append('project-MIN_NUM_FORMS', '1');
+        formData.append('project-MAX_NUM_FORMS', '10');
         formData.forEach((value, key) => {
             console.log(`form ${key}: ${value}`);
           });

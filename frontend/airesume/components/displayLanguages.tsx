@@ -13,6 +13,7 @@ const DisplayLanguages:React.FC<DisplayCertificationsProps> = ({languages})=>{
         <>
             <div className="bg-green-600 w-full px-12 py-5 rounded-md">
                 {languages.map((lang,index)=>{
+                    lang = new Map(Object.entries(lang))
                     return(
                         <div key={index}>
                         <label htmlFor="">Language {index+1}</label>

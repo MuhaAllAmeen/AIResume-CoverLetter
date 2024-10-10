@@ -1,4 +1,4 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, modelformset_factory
 
 from .models import Certification,Basic_Details, Experience,Education,Projects,Languages
 
@@ -25,8 +25,8 @@ class ExperienceForm(ModelForm):
             'end_date',
             'still_working',
             'experience_summary',
-
         )
+ExperienceFormSet = modelformset_factory(Experience, form=ExperienceForm, extra=1)
 
 class ProjectsForm(ModelForm):
     class Meta:
@@ -37,6 +37,8 @@ class ProjectsForm(ModelForm):
             'project_technologies_used',
             'project_description'
         )
+ProjectFormSet = modelformset_factory(Projects, form=ProjectsForm, extra=1)
+
 
 class EducationForm(ModelForm):
     class Meta:
@@ -50,6 +52,8 @@ class EducationForm(ModelForm):
             'still_studying',
             'education_summary'
         )
+EducationFormSet = modelformset_factory(Education, form=EducationForm, extra=1)
+
 
 class CertificationsForm(ModelForm):
     class Meta:

@@ -13,6 +13,7 @@ const DisplayCertifications:React.FC<DisplayCertificationsProps> = ({certificati
         <>
             <div className="bg-green-600 w-full px-12 py-5 rounded-md">
                 {certifications.map((cert,index)=>{
+                    cert = new Map(Object.entries(cert))
                     return(
                         <div key={index}>
                         <label htmlFor="">Certification {index+1}</label>

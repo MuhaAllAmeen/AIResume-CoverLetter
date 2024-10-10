@@ -13,6 +13,7 @@ const DisplayEducation:React.FC<DisplayEducationProps> = ({educations})=>{
         <>
             <div className="bg-green-600 w-full px-12 py-5 rounded-md">
                 {educations.map((edu,index)=>{
+                    edu = new Map(Object.entries(edu))
                     return(
                         <div key={index}>
                         <label htmlFor="">Education {index+1}</label>

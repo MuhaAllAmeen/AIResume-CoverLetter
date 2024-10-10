@@ -25,7 +25,7 @@ const ProfileDetails:React.FC<ProfileDetailsProps> =({content})=>{
         Language
     }
     useEffect(()=>{
-        console.log(details,typeof( details.get("Experience") as Map<string,any>))
+        console.log(details,( details.get("Experience")))
     }, [details])
     
     return(
@@ -52,7 +52,7 @@ const ProfileDetails:React.FC<ProfileDetailsProps> =({content})=>{
                     
                 </div>
                 {expandField[fields.Experience] && (
-                    <DisplayExperience experiences={[new Map(Object.entries(details.get("Experience")))]} />                )}
+                    <DisplayExperience experiences={details.get("Experience")} />                )}
                 
                 <div onClick={()=>{toggleExpandField((val) => {
                     const newState : [boolean, boolean, boolean, boolean, boolean] = [...val]; // Create a copy of the current state
@@ -63,7 +63,7 @@ const ProfileDetails:React.FC<ProfileDetailsProps> =({content})=>{
                     </label>
                 </div>
                 {expandField[fields.Projects] && (
-                    <DisplayProjects projects={[new Map(Object.entries(details.get("Projects")))]} />
+                    <DisplayProjects projects={details.get("Projects")} />
                 )}
 
                 <div onClick={()=>{toggleExpandField((val) => {
@@ -74,7 +74,7 @@ const ProfileDetails:React.FC<ProfileDetailsProps> =({content})=>{
                     <label className="flex items-center" htmlFor="">Education {expandField[fields.Education] ? <SidewardsSVG /> : <DownwardsSVG />}</label>
                 </div >
                 {expandField[fields.Education] && (
-                    <DisplayEducation educations={[new Map(Object.entries(details.get("Education")))]}/>
+                    <DisplayEducation educations={details.get("Education")}/>
                 )}
 
 
@@ -86,7 +86,7 @@ const ProfileDetails:React.FC<ProfileDetailsProps> =({content})=>{
                     <label className="flex items-center" htmlFor="">Certifications {expandField[fields.Certifications] ? <SidewardsSVG /> : <DownwardsSVG />}</label>
                 </div>
                 {expandField[fields.Certifications] && (
-                    <DisplayCertifications certifications={[new Map(Object.entries(details.get("Certifications")))]}/>
+                    <DisplayCertifications certifications={details.get("Certifications")}/>
                 )}
 
                 <div onClick={()=>{toggleExpandField((val) => {
@@ -97,7 +97,7 @@ const ProfileDetails:React.FC<ProfileDetailsProps> =({content})=>{
                     <label className="flex items-center" htmlFor="">Languages {expandField[fields.Language] ? <SidewardsSVG /> : <DownwardsSVG />}</label>
                 </div>
                 {expandField[fields.Language] && (
-                    <DisplayLanguages languages={[new Map(Object.entries(details.get("Languages")))]}/>
+                    <DisplayLanguages languages={details.get("Languages")}/>
                 )}
 
             </div>
