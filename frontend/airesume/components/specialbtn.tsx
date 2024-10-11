@@ -12,7 +12,7 @@ const SpecialBtn:React.FC<SpecialBtnProps> = ({content, type, id, link,onClick,d
     return (
         <>
             {/* <a href={link}> */}
-                <button disabled={disabled || false} onClick={onClick} type={type} id={id} className="flex items-center bg-slate-400 hover:bg-black hover:text-white transition-colors border-2 border-black  rounded-xl p-1 px-7 group">
+                <button disabled={disabled || false} onClick={onClick} type={type} id={id} className="flex items-center bg-primary hover:bg-secondary hover:text-white transition-colors border-2 border-secondary  rounded-xl p-1 px-7 group">
                 {content}
                 <NextSVG  className="group-hover:fill-white"/>
                 </button>

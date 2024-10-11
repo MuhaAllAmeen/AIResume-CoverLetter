@@ -8,7 +8,7 @@ interface CredentialsInputProps {
 }
 const CredentialsInput:React.FC<CredentialsInputProps>=({type,name,id, placeholder,onChange})=>{
     return(
-        <input onChange={onChange} placeholder={placeholder} type={type} name={name} id={id} className="border-slate-950 rounded-xl border-2 p-2 w-fit"/>
+        <input onChange={onChange} placeholder={placeholder} type={type} name={name} id={id} className="border-secondary placeholder:text-gray-700 bg-primary text-white font-semibold rounded-xl border-2 p-2 w-fit"/>
     
     )
 }
