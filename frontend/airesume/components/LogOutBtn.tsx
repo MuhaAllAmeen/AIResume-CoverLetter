@@ -10,7 +10,7 @@ const LogOutBtn = ()=>{
     }
     return(
         <>
-            <button onClick={onLogout} className="text-blue-800 text-xl">LogOut</button>
+            <button onClick={onLogout} className="text-[#050d0c] text-xl">LogOut</button>
         </>
     )
 }

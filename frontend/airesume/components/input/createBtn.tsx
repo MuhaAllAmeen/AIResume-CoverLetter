@@ -25,8 +25,8 @@ const CreateBtn:React.FC<CreateBtnProps> = ({content})=>{
     
     return(
         <>
-        <button onClick={onCreateClicked} className="bg-blue-200 p-3 rounded-xl">
-          {content}
+        <button onClick={onCreateClicked} className="bg-[#58745b] hover:bg-[#cab099] transition-colors duration-150 w-28 h-12 rounded-xl">
+          <label htmlFor="" className="cursor-pointer text-white font-semibold">{content}</label>
         </button>
         {dialogOpen && (
             <Modal open={dialogOpen} onRequestClose={closeDialog} closeOnOutsideClick>
