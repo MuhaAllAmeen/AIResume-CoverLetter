@@ -81,7 +81,7 @@ export default function LanguagesInput() {
             placeholder="Enter language"
             value={input.name}
             onChange={(event) => handleInputChange(index, event)}
-            className="border p-2 mr-4"
+            className="border p-2 mr-4 rounded-md"
           />
 
           {/* Selector for fluency */}
@@ -95,14 +95,22 @@ export default function LanguagesInput() {
             <option value="fluent">Fluent</option>
             <option value="native">Native</option>
           </select>
-
+          <div className="flex justify-between mt-2">
+            <button
+              onClick={() => handleAddLanguage(index)}
+              className="bg-primary text-white p-2 rounded"
+            >
+              Add
+            </button>
+            <button
+              onClick={handleAddMore}
+              className="bg-green-500 text-white p-2 rounded"
+            >
+              Add More Languages
+            </button>
+          </div>
           {/* Button to add the language */}
-          <button
-            onClick={() => handleAddLanguage(index)}
-            className="bg-blue-500 text-white p-2 rounded"
-          >
-            Add
-          </button>
+          
           {languageAdded[index] && (
             <label htmlFor="" className="ml-3 text-green-400">Added</label>
           )}
@@ -110,12 +118,7 @@ export default function LanguagesInput() {
       ))}
 
       {/* Button to add more input fields */}
-      <button
-        onClick={handleAddMore}
-        className="bg-green-500 text-white p-2 rounded"
-      >
-        Add More Languages
-      </button>
+      
 
       {/* Display added languages */}
       <div className="mt-4">

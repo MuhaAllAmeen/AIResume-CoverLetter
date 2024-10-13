@@ -33,17 +33,17 @@ const EducationInput:React.FC<EducationInputProps> = ({onChange,index})=>{
     return (
         <>
             <div className="mt-10 ml-10 mr-10">
-                <h2 className="text-3xl">Education Details</h2>
+                <h2 className="text-3xl font-bold">Education Details</h2>
                 <div className="flex flex-wrap justify-evenly mt-5">
-                    <input onChange={(e)=>{setUniversityName(e.target.value); setConfirm(false)}} className="border-2 border-black rounded-md p-1" type="text" placeholder="University Name" />
-                    <input onChange={(e)=>{setTypeOfCourse(e.target.value); setConfirm(false)}} className="border-2 border-black rounded-md p-1" type="text" placeholder="Type of Course"/>
-                    <input onChange={(e)=>{setFieldOfStudy(e.target.value); setConfirm(false)}} className="border-2 border-black rounded-md p-1" type="text" placeholder="Field of Study" />
-                    <input onChange={(e)=>{setEducationStartDate(e.target.value); setConfirm(false)}} className="border-2 border-black rounded-md p-1" type="date"  placeholder="Start Date"/>
-                    <input onChange={(e)=>{setEducationEndDate(e.target.value); setConfirm(false)}} className="border-2 border-black rounded-md p-1" type="date"  placeholder="End Date"/>
+                    <input onChange={(e)=>{setUniversityName(e.target.value); setConfirm(false)}} className="border-2 border-primary rounded-md p-1" type="text" placeholder="University Name" />
+                    <input onChange={(e)=>{setTypeOfCourse(e.target.value); setConfirm(false)}} className="border-2 border-primary rounded-md p-1" type="text" placeholder="Type of Course"/>
+                    <input onChange={(e)=>{setFieldOfStudy(e.target.value); setConfirm(false)}} className="border-2 border-primary rounded-md p-1" type="text" placeholder="Field of Study" />
+                    <input onChange={(e)=>{setEducationStartDate(e.target.value); setConfirm(false)}} className="border-2 border-primary rounded-md p-1" type="date"  placeholder="Start Date"/>
+                    <input onChange={(e)=>{setEducationEndDate(e.target.value); setConfirm(false)}} className="border-2 border-primary rounded-md p-1" type="date"  placeholder="End Date"/>
                 </div>
                 <div className="mt-7 flex flex-col items-center">
                     <h4 className="self-start">Summary</h4>
-                    <textarea onChange={(e)=>{setEducationSummary(e.target.value); setConfirm(false)}} className="border-2 border-black rounded-md p-1 w-full h-[150px] resize-none " name="education_desc" id="education_desc"></textarea>
+                    <textarea onChange={(e)=>{setEducationSummary(e.target.value); setConfirm(false)}} className="border-2 border-primary rounded-md p-1 w-full h-[150px] resize-none " name="education_desc" id="education_desc"></textarea>
                 </div>
                 <div className="float-right mt-3">
                     <button onClick={()=>{setConfirm(true); onConfirmClicked()}} className={`${confirm ? "text-green-600" : "text-red-500"} font-bold`}>{confirm ? "Confirmed":"Confirm"}</button>

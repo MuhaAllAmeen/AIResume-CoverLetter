@@ -52,7 +52,7 @@ const ExperienceDetails = ()=>{
     return (
         <>
             <div className="flex flex-col gap-4 justify-center items-center min-h-screen">
-                <div className="border-2 bg-slate-400 rounded-xl shadow-xl shadow-black p-4 w-[1000px]">
+                <div className="border-2 bg-secondary rounded-xl shadow-xl shadow-black p-4 w-[1000px]">
                     {experienceInputList.map((expInput,index)=>{
                         return(
                             <div key={index}><ExperienceInput index={index} onChange={saveExperienceDetails}/></div>

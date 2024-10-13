@@ -38,21 +38,31 @@ const ExperienceInput:React.FC<ExperienceInputProps> = ({onChange,index}) =>{
     return(
         <>
             <div className="mt-10 ml-10 mr-10">
-                <h2 className="text-3xl">Experience</h2>
-                <div className="flex flex-wrap justify-evenly  mt-5">
-                    <input onChange={(e)=>{setDesignation(e.target.value); setConfirm(false)}} className="border-2 border-black rounded-md p-1 " type="text" placeholder="Designation" />
-                    <input onChange={(e)=>{setCompanyName(e.target.value); setConfirm(false)}} className="border-2 border-black rounded-md p-1" type="text" placeholder="Company Name" />
-                    <input onChange={(e)=>{setLocation(e.target.value); setConfirm(false)}} className="border-2 border-black rounded-md p-1" type="text" placeholder="Location" />
-                    <input onChange={(e)=>{setStartingDate(e.target.value); setConfirm(false)}} className="border-2 border-black rounded-md p-1 " type="date" placeholder="Starting Date"/>
-                    <div>
-                        <input name="endingDateInput" onChange={(e)=>{setEndingDate(e.target.value); setConfirm(false)}} className="border-2 border-black rounded-md p-1" type="date" placeholder="Ending Date" />
-                        <input onChange={(e)=>{
-                            setStillWorking(e.target.checked);
-                            setConfirm(false);
-                            (document.getElementsByName('endingDateInput')[index] as HTMLInputElement).disabled = e.target.checked
-                            }} type="checkbox" name="still-working"/>
-                        <label htmlFor="still-working">Still Working</label>
+                <h2 className="text-3xl font-bold">Experience</h2>
+                <div className="  mt-5">
+                    <div className="flex justify-between">
+                        <input onChange={(e)=>{setDesignation(e.target.value); setConfirm(false)}} className="border-2 border-primary rounded-md p-1 " type="text" placeholder="Designation" />
+                        <input onChange={(e)=>{setCompanyName(e.target.value); setConfirm(false)}} className="border-2 border-primary rounded-md p-1" type="text" placeholder="Company Name" />
+                        <input onChange={(e)=>{setLocation(e.target.value); setConfirm(false)}} className="border-2 border-primary rounded-md p-1" type="text" placeholder="Location" />
+                        
                     </div>
+                    <div className="flex justify-around mt-5">
+                       <input onChange={(e)=>{setStartingDate(e.target.value); setConfirm(false)}} className="border-2 border-primary rounded-md p-1 " type="date" placeholder="Starting Date"/>
+                        <div className="flex gap-2 items-center">
+                        <input name="endingDateInput" onChange={(e)=>{setEndingDate(e.target.value); setConfirm(false)}} className="border-2 border-primary rounded-md p-1" type="date" placeholder="Ending Date" />
+                            <div>
+                                <input onChange={(e)=>{
+                                setStillWorking(e.target.checked);
+                                setConfirm(false);
+                                (document.getElementsByName('endingDateInput')[index] as HTMLInputElement).disabled = e.target.checked
+                                }} type="checkbox" name="still-working"/>
+                                <label htmlFor="still-working">Still Working</label>
+                            </div>
+                            
+                        </div> 
+                    </div>
+                    
+                    
                     
                 </div>
 

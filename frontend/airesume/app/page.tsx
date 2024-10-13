@@ -9,7 +9,7 @@ export default function Home() {
     <div>
       <div className=" bg-white h-full flex">
         <div className="max-h-screen max-w-[700px]">
-          <img className=" w-full h-full object-cover block" src="https://images.pexels.com/photos/5971258/pexels-photo-5971258.jpeg?cs=srgb&dl=pexels-cottonbro-5971258.jpg&fm=jpg" alt="" />
+          <img className=" w-full h-full object-cover block" src="https://images.pexels.com/photos/5971258/pexels-photo-5971258.jpeg?cs=srgb&dl=pexels-cottonbro-5971258.jpg&fm=jpg" alt="Picture" />
         </div>
         <div className="flex flex-col w-full">
           <div className="bg-[#cab099] w-full">

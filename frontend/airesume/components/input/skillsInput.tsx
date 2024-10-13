@@ -23,10 +23,7 @@ const SkillsInput = () =>{
             <div >
                 <h2 className="text-3xl">Skills</h2>
                 <input onChange={(e)=>setSkill(e.target.value)} id="skills-input" type="text" className="mt-5 border-2 border-black rounded-md mr-6"/>
-                <button onClick={handleAddBtn} className="bg-slate-400 p-1 rounded-md px-3 border-2">Add</button>
-                {/* <div className="flex justify-evenly"> */}
-                    {/* <SkillsOutput skills={skills} /> */}
-                {/* </div> */}
+                <button onClick={handleAddBtn} className="bg-primary text-white p-1 rounded-md px-3 border-2">Add</button>
             </div>
         </>
     )

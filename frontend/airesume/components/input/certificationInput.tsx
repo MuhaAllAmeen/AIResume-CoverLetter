@@ -22,7 +22,7 @@ const CertificationInput: React.FC<CertificationInputProps> = ({ index, onAddCer
             <div className="mt-5 flex flex-col gap-1 w-fit justify-center items-center">
                 <input onChange={(e)=>{setCertificateName(e.target.value); setcertificationAdded(false)}} className="border-2 border-black rounded-md" name={`certificate-name-${index}`} type="text" placeholder="Certificate Name" />
                 <input onChange={(e)=>{setCertificateLink(e.target.value); setcertificationAdded(false)}} className="border-2 border-black rounded-md" name={`certificate-link-${index}`} type="link" placeholder="Certificate Link" />
-                <button onClick={onAddBtn} className="bg-green-500 text-white px-5 py-2 rounded-md">Add</button>
+                <button onClick={onAddBtn} className="bg-primary text-white px-5 py-2 rounded-md">Add</button>
                 {certificationAdded && (
                     <label htmlFor="" className="text-green-500 ml-3">Added</label>
                 )}
