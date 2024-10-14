@@ -1,7 +1,6 @@
 import apiService from "@/app/services/api";
 import { EditSVG } from "@/assets/svgs";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 interface DisplayExperienceProps{
     experiences: Array<Map<string,any>>
@@ -12,7 +11,8 @@ const DisplayExperience:React.FC<DisplayExperienceProps> = ({experiences})=>{
     const [editIndex, setEditIndex] = useState<number | null>(null); // New state to hold the index
     const [refreshKey, setRefreshKey] = useState(0); // New state to force re-render
     const [updatedExperiences, setUpdatedExperiences] = useState<Array<Map<string,any>>>(experiences.map((exp)=>new Map(Object.entries(exp)))); // New state for updated experiences
-    
+    const divRef = useRef(null);
+
     const handleToggle = (index: number) => {
         setExpandedIndex(expandedIndex === index ? null : index); // Toggle the index
     };
@@ -45,11 +45,15 @@ const DisplayExperience:React.FC<DisplayExperienceProps> = ({experiences})=>{
     useEffect(()=>{
         console.log(edit,updatedExperiences)
         if(edit){
-            let expMap = updatedExperiences[editIndex!]
-            const allFields = Array.from(document.getElementsByTagName("p")); // Convert NodeList to an arra
-            console.log(allFields)
+            if (divRef.current){
+                const experienceContainer = divRef.current.querySelector(`div[id="${editIndex}"]`);
+                if (experienceContainer) {
+                    const allFields = Array.from(experienceContainer.querySelectorAll('p') as Array<HTMLElement>);                // const allFields = document.querySelectorAll(`#${editIndex?.toString()} p`)
+                console.log(allFields)
             for (let i =0; i<allFields.length; i++){
                 const field = allFields[i]
+                console.log('field',field)
+
                 if(field?.id=="summary"){
                     let newElement = document.createElement('textarea');
                     newElement.value = field?.innerText || ""
@@ -59,11 +63,7 @@ const DisplayExperience:React.FC<DisplayExperienceProps> = ({experiences})=>{
                     
                 }else{
                     let newElement = document.createElement('input');
-                    expMap.forEach((value,key)=>{
-                        if (value==field?.innerText){
-                            newElement.id = key
-                        }
-                    })
+                    newElement.id=field.id
                     newElement.value = field?.innerText || ""
                     newElement.className="text-black w-fit"
                     newElement.type = field.id.endsWith("date") ? "date" : "text"
@@ -71,6 +71,9 @@ const DisplayExperience:React.FC<DisplayExperienceProps> = ({experiences})=>{
                     console.log(newElement)    
                 }          
             }
+        }
+            }
+            
         }else{
             setRefreshKey(prev => prev + 1) //so that component gets refreshed reverting back to its original state when user decides to change their mind
         }
@@ -78,7 +81,7 @@ const DisplayExperience:React.FC<DisplayExperienceProps> = ({experiences})=>{
 
     return (
         <>
-        <div key={refreshKey} className="bg-primary w-full px-12 py-5 rounded-md text-white">
+        <div key={refreshKey} ref={divRef} className="bg-primary w-full px-12 py-5 rounded-md text-white">
             {updatedExperiences.map((exp,index)=>{
                 const id = exp.get("id") 
                 const designation = exp.get("designation") 
@@ -89,7 +92,7 @@ const DisplayExperience:React.FC<DisplayExperienceProps> = ({experiences})=>{
                 const experienceSummary = exp.get("experience_summary")                 
 
                 return(
-                    <div key={index}>
+                    <div id={`${index.toString()}`}  key={index}>
                         <div className="flex gap-2 items-center">
                            <label htmlFor="" className="font-semibold">Experience {index+1}</label>
                             <span className="cursor-pointer" onClick={() =>{toggleEditField(index)}}><EditSVG/></span> 
@@ -97,9 +100,9 @@ const DisplayExperience:React.FC<DisplayExperienceProps> = ({experiences})=>{
                         
                         <div className="flex flex-col gap-2">
                             <div className="flex justify-around">
-                                <p>{designation}</p>
-                                <p>{companyName}</p>
-                                <p>{location}</p>
+                                <p id="designation">{designation}</p>
+                                <p id="company_name">{companyName}</p>
+                                <p id="location">{location}</p>
                             </div>
                             <div className="flex justify-around">
                                 Started at: <p id="start_date">{startDate}</p>
@@ -109,7 +112,7 @@ const DisplayExperience:React.FC<DisplayExperienceProps> = ({experiences})=>{
                                 className={`transition-all duration-300 text-ellipsis ${expandedIndex === index ? 'h-auto' : 'h-12'} overflow-hidden`} >
                                <p id="summary">{experienceSummary}</p>
                             </div>
-                            {edit && (
+                            {edit && index==editIndex  && (
                                 <button onClick={()=>onConfirm(id)} className="text-white">Confirm</button>
                             )}
                         </div>

@@ -133,14 +133,14 @@ def edit_details(request):
         return JsonResponse(language_serializer.errors, status=400)
     
     elif editTable=="Certifications":
-        language_details = Certification.objects.get(pk=request.data.get('id')) 
-        language_serializer = CertificationsSerializer(language_details, data=request.data.get('details'), partial=True)
-        if language_serializer.is_valid():
-            language_serializer.save()
+        certification_details = Certification.objects.get(pk=request.data.get('id')) 
+        certification_serializer = CertificationsSerializer(certification_details, data=request.data.get('details'), partial=True)
+        if certification_serializer.is_valid():
+            certification_serializer.save()
             print(request.data)
             print("sent")
-            print(language_serializer.data)
-            return JsonResponse({"success":True,"content":language_serializer.data})
+            print(certification_serializer.data)
+            return JsonResponse({"success":True,"content":certification_serializer.data})
         return JsonResponse(language_serializer.errors, status=400)
     
     elif editTable=="Languages":
@@ -189,21 +189,21 @@ def getAndReturnDetails(user):
     try:
 
         basic_details = Basic_Details.objects.get(user=user)
-        basic_fields = [field.name for field in Basic_Details._meta.get_fields() if field.name not in ['id', 'user', 'project_id', 'education_id', 'certification_id', 'language_id']]    
+        basic_fields = [field.name for field in Basic_Details._meta.get_fields() if field.name not in ['id', 'user']]    
         
         experience_details = Experience.objects.filter(user=user)
-        experience_fields = [field.name for field in Experience._meta.get_fields()if field.name not in [ 'user', 'project_id', 'education_id', 'certification_id', 'language_id'] ]
+        experience_fields = [field.name for field in Experience._meta.get_fields()if field.name not in [ 'user'] ]
         project_details = Projects.objects.filter(user=user)
-        project_fields = [field.name for field in Projects._meta.get_fields() if field.name not in [ 'user', 'education_id', 'certification_id', 'language_id']]
+        project_fields = [field.name for field in Projects._meta.get_fields() if field.name not in [ 'user']]
 
         education_details = Education.objects.filter(user=user)
-        education_fields = [field.name for field in Education._meta.get_fields() if field.name not in ['id', 'user', 'project_id', 'education_id', 'certification_id', 'language_id']]
+        education_fields = [field.name for field in Education._meta.get_fields() if field.name not in ['user']]
 
         certification_details = Certification.objects.filter(user=user)
-        certification_fields = [field.name for field in Certification._meta.get_fields() if field.name not in ['id', 'user', 'project_id', 'education_id', 'certification_id', 'language_id']]
+        certification_fields = [field.name for field in Certification._meta.get_fields() if field.name not in [ 'user']]
 
         language_details = Languages.objects.filter(user=user)
-        language_fields = [field.name for field in Languages._meta.get_fields() if field.name not in ['id', 'user', 'project_id', 'education_id', 'certification_id', 'language_id']]
+        language_fields = [field.name for field in Languages._meta.get_fields() if field.name not in ['user']]
 
         for field in basic_fields:
             cv_details[field] = getattr(basic_details, field, None)

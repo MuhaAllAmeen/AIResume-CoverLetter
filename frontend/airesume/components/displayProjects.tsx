@@ -1,6 +1,6 @@
 import apiService from "@/app/services/api";
 import { EditSVG } from "@/assets/svgs";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface DisplayProjectsProps{
     projects:Array<Map<string,any>>
@@ -11,6 +11,7 @@ const DisplayProjects:React.FC<DisplayProjectsProps> = ({projects})=>{
     const [editIndex, setEditIndex] = useState<number | null>(null); // New state to hold the index
     const [refreshKey, setRefreshKey] = useState(0); // New state to force re-render
     const [updatedProjects, setUpdatedProjects] = useState<Array<Map<string,any>>>(projects.map((proj)=>new Map(Object.entries(proj)))); // New state for updated experiences
+    const divRef = useRef(null);
 
     const handleToggle = (index: number) => {
         setExpandedIndex(expandedIndex === index ? null : index); // Toggle the index
@@ -24,14 +25,14 @@ const DisplayProjects:React.FC<DisplayProjectsProps> = ({projects})=>{
     async function onConfirm(id:string){
         const allField = Array.from(document.getElementsByTagName('input'))
         const summaryField = document.getElementById("project_description_ta") as HTMLTextAreaElement
-        const edittedExpObject: Record<string, any> = {};
+        const edittedprojObject: Record<string, any> = {};
         allField.forEach((field) => {
-            edittedExpObject[field.id] = field.value; // Set the field value directly
+            edittedprojObject[field.id] = field.value; // Set the field value directly
         });
 
-        edittedExpObject["project_description"] = summaryField?.value; 
+        edittedprojObject["project_description"] = summaryField?.value; 
 
-        const response = await apiService.putContent("api/cv_details/edit/",JSON.stringify({id:id,table:"Projects",details:edittedExpObject}))
+        const response = await apiService.putContent("api/cv_details/edit/",JSON.stringify({id:id,table:"Projects",details:edittedprojObject}))
         if(response.success){
             setUpdatedProjects((prevProjects) => {
                 const newProjects = [...prevProjects]; // Create a new array
@@ -44,31 +45,31 @@ const DisplayProjects:React.FC<DisplayProjectsProps> = ({projects})=>{
     useEffect(()=>{
         console.log(edit,updatedProjects)
         if(edit){
-            let expMap = updatedProjects[editIndex!]
-            const allFields = Array.from(document.getElementsByTagName("p")); // Convert NodeList to an arra
-            console.log(allFields)
-            for (let i =0; i<allFields.length; i++){
-                const field = allFields[i]
-                if(field?.id=="summary"){
-                    let newElement = document.createElement('textarea');
-                    newElement.value = field?.innerText || ""
-                    newElement.className="text-black w-full h-full"
-                    newElement.id = "project_description_ta"
-                    field?.replaceWith(newElement);
-                    
-                }else{
-                    let newElement = document.createElement('input');
-                    expMap.forEach((value,key)=>{
-                        if (value==field?.innerText){
-                            newElement.id = key
-                        }
-                    })
-                    newElement.value = field?.innerText || ""
-                    newElement.className="text-black w-fit"
-                    newElement.type = field.id.endsWith("date") ? "date" : "text"
-                    field?.replaceWith(newElement);
-                    console.log(newElement)    
-                }          
+            if (divRef.current){
+            const projectContainer = divRef.current.querySelector(`div[id="${editIndex}"]`);
+                if (projectContainer) {
+                const allFields = Array.from(projectContainer.querySelectorAll('p') as Array<HTMLElement>);
+                    console.log(allFields)
+                    for (let i =0; i<allFields.length; i++){
+                        const field = allFields[i]
+                        if(field?.id=="summary"){
+                            let newElement = document.createElement('textarea');
+                            newElement.value = field?.innerText || ""
+                            newElement.className="text-black w-full h-full"
+                            newElement.id = "project_description_ta"
+                            field?.replaceWith(newElement);
+                            
+                        }else{
+                            let newElement = document.createElement('input');
+                            newElement.id = field.id
+                            newElement.value = field?.innerText || ""
+                            newElement.className="text-black w-fit"
+                            newElement.type = field.id.endsWith("date") ? "date" : "text"
+                            field?.replaceWith(newElement);
+                            console.log(newElement)    
+                        }  
+                    }
+                }        
             }
         }else{
             setRefreshKey(prev => prev + 1) //so that component gets refreshed reverting back to its original state when user decides to change their mind
@@ -77,27 +78,27 @@ const DisplayProjects:React.FC<DisplayProjectsProps> = ({projects})=>{
 
     return(
         <>
-            <div key={refreshKey} className="bg-primary text-white w-full px-12 py-5 rounded-md">
+            <div key={refreshKey} ref={divRef} className="bg-primary text-white w-full px-12 py-5 rounded-md">
                 {updatedProjects.map((project,index)=>{
                     return(
-                        <div key={index}>
+                        <div id={`${index.toString()}`} key={index}>
                         <div className="flex gap-2 items-center">
                            <label htmlFor="" className="font-semibold">Project {index+1}</label>
                             <span className="cursor-pointer" onClick={() =>{toggleEditField(index)}}><EditSVG/></span> 
                         </div>
                         <div className="flex flex-col gap-2">
                             <div className="flex justify-around">
-                                <p>{project.get("project_name")}</p>
-                                <p>{project.get("project_link")}</p>
+                                <p id="project_name">{project.get("project_name")}</p>
+                                <p id="project_link">{project.get("project_link")}</p>
                             </div>
                             <div className="flex justify-around">
-                                <p>Tech Stack: {project.get("project_technologies_used")}</p>
+                                Tech Stack:<p id="project_technologies_used"> {project.get("project_technologies_used")}</p>
                             </div>
                             <div onClick={() => handleToggle(index)}
                                 className={`transition-all duration-300 text-ellipsis ${expandedIndex === index ? 'h-auto' : 'h-12'} overflow-hidden`} >
                                <p id="summary">{project.get("project_description")}</p>
                             </div>
-                            {edit && (
+                            {edit && index==editIndex  && (
                                 <button onClick={() => onConfirm(project.get("project_id"))} className="text-white">Confirm</button>
                             )}
                         </div>

@@ -59,7 +59,7 @@ class CertificationsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Certification
         fields=(
-            'certification_id'
+            'certification_id',
             'certification_link',
             'certification_name'
         )
