@@ -74,6 +74,25 @@ const apiService = {
             .catch(error=> reject(error))
         })
     },
+    putContent: async function (url: string, data:any): Promise<any>{
+        const token = await getAccessToken()
+        return new Promise((resolve,reject)=>{
+            fetch(`${mainurl}${url}`,{
+                method:"PUT",
+                body: data,
+                headers:{
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                }
+            })
+            .then(response => response.json())
+            .then((data)=>{
+                resolve(data);
+            })
+            .catch(error=> reject(error))
+        })
+    },
 
 }
 

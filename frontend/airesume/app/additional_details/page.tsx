@@ -15,6 +15,7 @@ const AdditionalDetails =()=>{
     const { details, setDetails, skills, certifications, languages } = useDetails();
     const [currentComponent, setCurrentComponent] = useState(0);
     const [errors,setErrors]= useState<string[]>([])
+    const [isLoading,setIsLoading] = useState(false)
     const containerRef = useRef<HTMLDivElement>(null);
 
     const handleScroll = () => {
@@ -44,6 +45,7 @@ const AdditionalDetails =()=>{
 
 
     async function saveAdditionalDetails(){
+        setIsLoading(true)
         const additionalDetails = new Map<string,string>()
 
         additionalDetails.set('skills',skills.toString())
@@ -69,8 +71,10 @@ const AdditionalDetails =()=>{
         setDetails(updatedDetails);
         const response = await sendDetailstoBackend()
         if (response.success){
+            setIsLoading(false)
             router.replace("/")
         }else{
+            setIsLoading(false)
             const tmpErrors: string[] = Object.values(response).map((error: any)=>{
                 return error;
             })
@@ -107,7 +111,7 @@ const AdditionalDetails =()=>{
                         <div className="float-right mr-9 mt-10 mb-10 relative right-0 bottom-0">
                             <SpecialBtn onClick={()=>{
                                 saveAdditionalDetails()
-                            }} link="/" content="Next" type="button" id="next"/>                    
+                            }}  content={isLoading ? "Saving":"Next"} disabled={isLoading} type="button" id="next"/>                    
                         </div>
                 </div>
             </div>

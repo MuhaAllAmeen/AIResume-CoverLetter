@@ -25,7 +25,7 @@ const ProfileDetails:React.FC<ProfileDetailsProps> =({content})=>{
         Language
     }
     useEffect(()=>{
-        console.log(details,( details.get("Experience")))
+        console.log("ww",details, details.get("Experience"))
     }, [details])
     
     return(
@@ -45,7 +45,7 @@ const ProfileDetails:React.FC<ProfileDetailsProps> =({content})=>{
                     const newState : [boolean, boolean, boolean, boolean, boolean] = [...val]; // Create a copy of the current state
                     newState[fields.Experience] = !newState[fields.Experience]; // Update the specific field
                     return newState; // Return the updated state
-                })}} className="cursor-pointer hover:bg-green-700 hover:rounded-lg hover:px-3 transition-all">
+                })}} className="cursor-pointer hover:bg-primary hover:rounded-lg hover:px-3 transition-all">
                         <label className="flex items-center" htmlFor="">Experiences {expandField[fields.Experience] ? <SidewardsSVG /> : <DownwardsSVG />}
                         </label>
 
@@ -58,7 +58,7 @@ const ProfileDetails:React.FC<ProfileDetailsProps> =({content})=>{
                     const newState : [boolean, boolean, boolean, boolean, boolean] = [...val]; // Create a copy of the current state
                     newState[fields.Projects] = !newState[fields.Projects]; // Update the specific field
                     return newState; // Return the updated state
-                })}} className="cursor-pointer hover:bg-green-700 hover:rounded-lg hover:px-3 transition-all">
+                })}} className="cursor-pointer hover:bg-primary hover:rounded-lg hover:px-3 transition-all">
                     <label className="flex items-center" htmlFor="">Projects {expandField[fields.Projects] ? <SidewardsSVG /> : <DownwardsSVG />}
                     </label>
                 </div>
@@ -70,7 +70,7 @@ const ProfileDetails:React.FC<ProfileDetailsProps> =({content})=>{
                     const newState : [boolean, boolean, boolean, boolean, boolean] = [...val]; // Create a copy of the current state
                     newState[fields.Education] = !newState[fields.Education]; // Update the specific field
                     return newState; // Return the updated state
-                })}} className="cursor-pointer hover:bg-green-700 hover:rounded-lg hover:px-3 transition-all">
+                })}} className="cursor-pointer hover:bg-primary hover:rounded-lg hover:px-3 transition-all">
                     <label className="flex items-center" htmlFor="">Education {expandField[fields.Education] ? <SidewardsSVG /> : <DownwardsSVG />}</label>
                 </div >
                 {expandField[fields.Education] && (
@@ -82,7 +82,7 @@ const ProfileDetails:React.FC<ProfileDetailsProps> =({content})=>{
                     const newState : [boolean, boolean, boolean, boolean, boolean] = [...val]; // Create a copy of the current state
                     newState[fields.Certifications] = !newState[fields.Certifications]; // Update the specific field
                     return newState; // Return the updated state
-                })}} className="cursor-pointer hover:bg-green-700 hover:rounded-lg hover:px-3 transition-all">
+                })}} className="cursor-pointer hover:bg-primary hover:rounded-lg hover:px-3 transition-all">
                     <label className="flex items-center" htmlFor="">Certifications {expandField[fields.Certifications] ? <SidewardsSVG /> : <DownwardsSVG />}</label>
                 </div>
                 {expandField[fields.Certifications] && (
@@ -93,7 +93,7 @@ const ProfileDetails:React.FC<ProfileDetailsProps> =({content})=>{
                     const newState : [boolean, boolean, boolean, boolean, boolean] = [...val]; // Create a copy of the current state
                     newState[fields.Language] = !newState[fields.Language]; // Update the specific field
                     return newState; // Return the updated state
-                })}} className="cursor-pointer hover:bg-green-700 hover:rounded-lg hover:px-3 transition-all">
+                })}} className="cursor-pointer hover:bg-primary hover:rounded-lg hover:px-3 transition-all">
                     <label className="flex items-center" htmlFor="">Languages {expandField[fields.Language] ? <SidewardsSVG /> : <DownwardsSVG />}</label>
                 </div>
                 {expandField[fields.Language] && (

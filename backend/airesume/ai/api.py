@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from .form import BasicDetailsForm, ExperienceFormSet, ProjectFormSet, EducationFormSet, LanguagesFormSet, CertificationFormSet
 from .models import Basic_Details,Experience,Projects,Education,Languages,Certification
-from .serializers import CVDetailSerializer
+from .serializers import CVDetailSerializer,ExperienceSerializer, ProjectsSerializer, EducationSerializer, CertificationsSerializer, LanguagesSerializer
 from useraccount.models import User
 from rest_framework_simplejwt.tokens import AccessToken
 import google.generativeai as genai
@@ -87,6 +87,75 @@ def generate_resume(cv_details, job_summary):
     print(response.text)
     return response.text
 
+@api_view(['PUT'])
+def edit_details(request):
+    try:
+        token = request.META['HTTP_AUTHORIZATION'].split('Bearer ')[1]
+        token = AccessToken(token)
+        user_id = token.payload['user_id']
+        user = User.objects.get(pk=user_id)
+    except Exception as e:
+        user = None 
+
+    editTable = request.data.get("table")
+
+    if editTable=="Experience":
+        language_details = Experience.objects.get(pk=request.data.get('id')) 
+        language_serializer = ExperienceSerializer(language_details, data=request.data.get('details'), partial=True)
+        if language_serializer.is_valid():
+            language_serializer.save()
+            print(request.data)
+            print("sent")
+            print(language_serializer.data)
+            return JsonResponse({"success":True,"content":language_serializer.data})
+        return JsonResponse(language_serializer.errors, status=400)
+    
+    elif editTable=="Projects":
+        language_details = Projects.objects.get(pk=request.data.get('id')) 
+        language_serializer = ProjectsSerializer(language_details, data=request.data.get('details'), partial=True)
+        if language_serializer.is_valid():
+            language_serializer.save()
+            print(request.data)
+            print("sent")
+            print(language_serializer.data)
+            return JsonResponse({"success":True,"content":language_serializer.data})
+        return JsonResponse(language_serializer.errors, status=400)
+    
+    elif editTable=="Education":
+        language_details = Education.objects.get(pk=request.data.get('id')) 
+        language_serializer = EducationSerializer(language_details, data=request.data.get('details'), partial=True)
+        if language_serializer.is_valid():
+            language_serializer.save()
+            print(request.data)
+            print("sent")
+            print(language_serializer.data)
+            return JsonResponse({"success":True,"content":language_serializer.data})
+        return JsonResponse(language_serializer.errors, status=400)
+    
+    elif editTable=="Certifications":
+        language_details = Certification.objects.get(pk=request.data.get('id')) 
+        language_serializer = CertificationsSerializer(language_details, data=request.data.get('details'), partial=True)
+        if language_serializer.is_valid():
+            language_serializer.save()
+            print(request.data)
+            print("sent")
+            print(language_serializer.data)
+            return JsonResponse({"success":True,"content":language_serializer.data})
+        return JsonResponse(language_serializer.errors, status=400)
+    
+    elif editTable=="Languages":
+        language_details = Languages.objects.get(pk=request.data.get('id')) 
+        language_serializer = LanguagesSerializer(language_details, data=request.data.get('details'), partial=True)
+        if language_serializer.is_valid():
+            language_serializer.save()
+            print(request.data)
+            print("sent")
+            print(language_serializer.data)
+            return JsonResponse({"success":True,"content":language_serializer.data})
+        return JsonResponse(language_serializer.errors, status=400)
+
+
+
 
 
     
@@ -116,17 +185,16 @@ def getAndReturnDetails(user):
     education_details_list = []
     certification_details_list = []
     language_details_list = []
-    
+    # if field.name not in ['id', 'user', 'project_id', 'education_id', 'certification_id', 'language_id']
     try:
 
         basic_details = Basic_Details.objects.get(user=user)
         basic_fields = [field.name for field in Basic_Details._meta.get_fields() if field.name not in ['id', 'user', 'project_id', 'education_id', 'certification_id', 'language_id']]    
         
         experience_details = Experience.objects.filter(user=user)
-        experience_fields = [field.name for field in Experience._meta.get_fields() if field.name not in ['id', 'user', 'project_id', 'education_id', 'certification_id', 'language_id']]
-
+        experience_fields = [field.name for field in Experience._meta.get_fields()if field.name not in [ 'user', 'project_id', 'education_id', 'certification_id', 'language_id'] ]
         project_details = Projects.objects.filter(user=user)
-        project_fields = [field.name for field in Projects._meta.get_fields() if field.name not in ['id', 'user', 'project_id', 'education_id', 'certification_id', 'language_id']]
+        project_fields = [field.name for field in Projects._meta.get_fields() if field.name not in [ 'user', 'education_id', 'certification_id', 'language_id']]
 
         education_details = Education.objects.filter(user=user)
         education_fields = [field.name for field in Education._meta.get_fields() if field.name not in ['id', 'user', 'project_id', 'education_id', 'certification_id', 'language_id']]
@@ -141,6 +209,7 @@ def getAndReturnDetails(user):
             cv_details[field] = getattr(basic_details, field, None)
         
         for experience in experience_details:
+            print(experience.user.id,experience.id)
             experience_details_dict = {}
             for field in experience_fields:
                 experience_details_dict[field] = getattr(experience, field, None)

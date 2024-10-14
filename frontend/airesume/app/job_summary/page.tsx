@@ -38,7 +38,7 @@ const JobSummary = ()=>{
                 <h1 className="text-3xl mb-7">Paste the Job Summary here</h1>
                 <textarea onChange={(e)=>setSummary(e.target.value)} className="resize-none p-2 w-[800px] h-[400px] border-2 border-black rounded-md" name="job" id="job"></textarea>
                 <div className="mt-10">
-                    <SpecialBtn content={isLoading?"Loading...":"Next"} disabled={isLoading} id="next" onClick={onNext} link="" />
+                    <SpecialBtn content={isLoading?"Loading...":"Next"} disabled={isLoading} id="next" onClick={onNext}  />
                 </div>
             </div>
         </>

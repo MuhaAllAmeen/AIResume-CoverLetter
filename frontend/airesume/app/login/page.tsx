@@ -1,6 +1,6 @@
 'use client'
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import apiService from "../services/api";
 import { handleLogin } from "../services/token";
 import CredentialsInput from "@/components/input/credentialsInput";
@@ -21,7 +21,11 @@ const Login=()=>{
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const [error,setErrors]= useState<String[]>([])
-    const sendLogin = async() =>{
+    const [isLoading,setIsLoading] = useState(false)
+    const sendLogin = async(e:React.FormEvent<HTMLFormElement>) =>{
+        e.preventDefault()
+        setIsLoading(true)
+        console.log(isLoading)
         const formData = {
             username:username,
             email: email,
@@ -31,8 +35,10 @@ const Login=()=>{
         console.log(response)
         if(response.access){
             await handleLogin(response.user.pk, response.access, response.refresh,response.user.username)
+            setIsLoading(false)
             router.push('/')
         }else{
+            setIsLoading(false)
             const tmpErrors: string[] = Object.values(response).map((error: any)=>{
                 return error;
             })
@@ -40,6 +46,9 @@ const Login=()=>{
             console.log(error)
         }
     }
+    useEffect(()=>{
+        console.log(isLoading)
+    },[isLoading])
     return (
         <>
             <div className="flex justify-evenly  h-screen w-full">
@@ -49,13 +58,13 @@ const Login=()=>{
                 </div>
                 <div className="justify-self-center flex flex-col justify-center gap-10 bg-white">
                     <h1 className="text-6xl text-primary font-bold">Login.</h1>
-                    <form action={sendLogin}>
+                    <form onSubmit={sendLogin}>
                         <div className="flex flex-col gap-4 items-center">
                             <CredentialsInput onChange={(e)=> setUsername(e.target.value)} placeholder="Username" name="username" type="text" id="username"/>
                             <CredentialsInput onChange={(e)=> setEmail(e.target.value)} placeholder="Email" name="email" type="email" id="email"/>
                             <CredentialsInput onChange={(e)=> setPassword(e.target.value)} placeholder="Password" name="password" type="password" id="password" />
                             <div className="mt-10">
-                                <SpecialBtn onClick={()=>{}} type="submit" link="/register/cv_details" content="Login" id="register" />
+                                <SpecialBtn disabled={isLoading} onClick={()=>{}} type="submit"  content={isLoading?"Logging In..." : "Login"} id="register" />
                             </div>
                         </div>
                     </form>  
