@@ -58,7 +58,7 @@ const EducationDetails = ()=>{
                     })}
                     <button onClick={()=>setEducationInputList((expList)=>[...expList,<EducationInput index={expList.length} onChange={saveEducationDetails} />])} className="font-bold mt-5 ml-10 hover:bg-gray-500 px-4 rounded-md transition-colors">Add More</button>
                     <div className="relative float-right mt-20">
-                        <SpecialBtn onClick={onNextClicked} link="cv_details/additional_details" content="Next" type="button" id="next"/>                    
+                        <SpecialBtn onClick={onNextClicked} content="Next" type="button" id="next"/>                    
                     </div>
                 </div>      
             </div>

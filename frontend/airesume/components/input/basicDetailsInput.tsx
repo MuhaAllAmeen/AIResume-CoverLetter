@@ -43,7 +43,7 @@ const BasicDetailsInput:React.FC<BasicDetailsInputProps> = ({onChange})=>{
                     <textarea onChange={(e)=>setSummary(e.target.value)} className="border-2 border-primary rounded-md p-1 w-full h-[150px] resize-none " name="" id=""></textarea>
             </div>
             <div className="relative float-right mt-20">
-                    <SpecialBtn onClick={onNextClicked} link="cv_details/additional_details" content="Next" type="button" id="next"/>                    
+                    <SpecialBtn onClick={onNextClicked}  content="Next" type="button" id="next"/>                    
             </div>
             
         </div>

@@ -11,7 +11,7 @@ const DisplayLanguages:React.FC<DisplayCertificationsProps> = ({languages})=>{
     const [editIndex, setEditIndex] = useState<number | null>(null); // New state to hold the index
     const [refreshKey, setRefreshKey] = useState(0); // New state to force re-render
     const [updatedLanguages, setUpdatedLanguages] = useState<Array<Map<string,any>>>(languages.map((lang)=>new Map(Object.entries(lang)))); // New state for updated experiences
-    const divRef = useRef(null);
+    const divRef = useRef<HTMLDivElement | null>(null);
 
     const handleToggle = (index: number) => {
         setExpandedIndex(expandedIndex === index ? null : index); // Toggle the index
@@ -50,7 +50,7 @@ const DisplayLanguages:React.FC<DisplayCertificationsProps> = ({languages})=>{
             if (divRef.current){
                 const languageContainer = divRef.current.querySelector(`div[id="${editIndex}"]`);
                 if (languageContainer) {
-                    const allFields = Array.from(languageContainer.querySelectorAll('p') as Array<HTMLElement>);                // const allFields = document.querySelectorAll(`#${editIndex?.toString()} p`)
+                    const allFields = Array.from(languageContainer.querySelectorAll('p') as unknown as Array<HTMLElement>);                // const allFields = document.querySelectorAll(`#${editIndex?.toString()} p`)
                 console.log(allFields)
                     for (let i =0; i<allFields.length; i++){
                         const field = allFields[i]

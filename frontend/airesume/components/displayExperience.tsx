@@ -11,7 +11,7 @@ const DisplayExperience:React.FC<DisplayExperienceProps> = ({experiences})=>{
     const [editIndex, setEditIndex] = useState<number | null>(null); // New state to hold the index
     const [refreshKey, setRefreshKey] = useState(0); // New state to force re-render
     const [updatedExperiences, setUpdatedExperiences] = useState<Array<Map<string,any>>>(experiences.map((exp)=>new Map(Object.entries(exp)))); // New state for updated experiences
-    const divRef = useRef(null);
+    const divRef = useRef<HTMLDivElement | null>(null);
 
     const handleToggle = (index: number) => {
         setExpandedIndex(expandedIndex === index ? null : index); // Toggle the index
@@ -48,7 +48,7 @@ const DisplayExperience:React.FC<DisplayExperienceProps> = ({experiences})=>{
             if (divRef.current){
                 const experienceContainer = divRef.current.querySelector(`div[id="${editIndex}"]`);
                 if (experienceContainer) {
-                    const allFields = Array.from(experienceContainer.querySelectorAll('p') as Array<HTMLElement>);                // const allFields = document.querySelectorAll(`#${editIndex?.toString()} p`)
+                    const allFields = Array.from(experienceContainer.querySelectorAll('p') as unknown as Array<HTMLElement>);                // const allFields = document.querySelectorAll(`#${editIndex?.toString()} p`)
                 console.log(allFields)
             for (let i =0; i<allFields.length; i++){
                 const field = allFields[i]

@@ -11,7 +11,7 @@ const DisplayProjects:React.FC<DisplayProjectsProps> = ({projects})=>{
     const [editIndex, setEditIndex] = useState<number | null>(null); // New state to hold the index
     const [refreshKey, setRefreshKey] = useState(0); // New state to force re-render
     const [updatedProjects, setUpdatedProjects] = useState<Array<Map<string,any>>>(projects.map((proj)=>new Map(Object.entries(proj)))); // New state for updated experiences
-    const divRef = useRef(null);
+    const divRef = useRef<HTMLDivElement | null>(null);
 
     const handleToggle = (index: number) => {
         setExpandedIndex(expandedIndex === index ? null : index); // Toggle the index
@@ -48,7 +48,7 @@ const DisplayProjects:React.FC<DisplayProjectsProps> = ({projects})=>{
             if (divRef.current){
             const projectContainer = divRef.current.querySelector(`div[id="${editIndex}"]`);
                 if (projectContainer) {
-                const allFields = Array.from(projectContainer.querySelectorAll('p') as Array<HTMLElement>);
+                const allFields = Array.from(projectContainer.querySelectorAll('p') as unknown as Array<HTMLElement>);
                     console.log(allFields)
                     for (let i =0; i<allFields.length; i++){
                         const field = allFields[i]

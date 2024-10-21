@@ -4,9 +4,8 @@ import { useRouter } from "next/navigation";
 
 const CoverLetter=()=>{
 
-    const router = useRouter()
     const doc = new jsPDF()
-    const content = localStorage.getItem("cover_letter")
+    const content = typeof window !== 'undefined' ? localStorage.getItem("cover_letter") : ""
     async function onDownload(){
         let strippedContent = new DOMParser().parseFromString(content!, 'text/html').body.textContent
         var splitTitle = doc.splitTextToSize(strippedContent!, 270);

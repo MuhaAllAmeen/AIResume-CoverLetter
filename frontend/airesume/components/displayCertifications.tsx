@@ -11,7 +11,7 @@ const DisplayCertifications:React.FC<DisplayCertificationsProps> = ({certificati
     const [editIndex, setEditIndex] = useState<number | null>(null); // New state to hold the index
     const [refreshKey, setRefreshKey] = useState(0); // New state to force re-render
     const [updatedCertifications, setUpdatedCertifications] = useState<Array<Map<string,any>>>(certifications.map((cert)=>new Map(Object.entries(cert)))); // New state for updated experiences
-    const divRef = useRef(null);
+    const divRef = useRef<HTMLDivElement | null>(null);
 
     const handleToggle = (index: number) => {
         setExpandedIndex(expandedIndex === index ? null : index); // Toggle the index
@@ -47,7 +47,7 @@ const DisplayCertifications:React.FC<DisplayCertificationsProps> = ({certificati
             if (divRef.current){
                 const certificationContainer = divRef.current.querySelector(`div[id="${editIndex}"]`);
                 if (certificationContainer) {
-                    const allFields = Array.from(certificationContainer.querySelectorAll('p') as Array<HTMLElement>);                // const allFields = document.querySelectorAll(`#${editIndex?.toString()} p`)
+                    const allFields = Array.from(certificationContainer.querySelectorAll('p') as unknown as Array<HTMLElement>);                // const allFields = document.querySelectorAll(`#${editIndex?.toString()} p`)
                 console.log(allFields)
                     for (let i =0; i<allFields.length; i++){
                         const field = allFields[i]

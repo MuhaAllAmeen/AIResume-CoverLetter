@@ -1,6 +1,6 @@
 'use client'
 import { getUserId } from "@/app/services/token"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { Modal } from "../Modal"
 

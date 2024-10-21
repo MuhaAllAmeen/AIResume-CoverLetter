@@ -6,9 +6,15 @@ import { useEffect, useState } from "react"
 import { renderToStaticMarkup } from "react-dom/server"
 
 const Resume = ()=>{
-    const content = localStorage.getItem('resume')?.match(RegExp(/\s([\s\S]*?)`/gmi))![0]
+    const content = typeof window !== 'undefined' ? localStorage.getItem('resume')?.match(RegExp(/\s([\s\S]*?)`/gmi))![0] : ""
     const jsonFriendlyString = content!.slice(0,-1)
-    const jsonObject = JSON.parse(jsonFriendlyString) 
+    let jsonObject;
+    try {
+        jsonObject = JSON.parse(jsonFriendlyString);
+    } catch (error) {
+        console.error("Error parsing JSON:", error);
+        jsonObject = {}; // Fallback to an empty object or handle as needed
+    } 
     const resumeMap = new Map(Object.entries(jsonObject))
     const doc = new jsPDF('p','pt')
     const pageWidth = doc.internal.pageSize.getWidth()
