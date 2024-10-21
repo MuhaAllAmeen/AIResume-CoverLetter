@@ -1,5 +1,5 @@
 djangorestframework
-psycopg2
+psycopg2-binary
 dj-rest-auth
 djangorestframework-simplejwt
 dj-rest-auth
