@@ -30,7 +30,7 @@ const Resume = ()=>{
         // doc.setFontSize(1)
         // new XMLSerializer().serializeToString('<svg width="22" height="22" viewBox="0 0 24 24" fill="none" ><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M3.75 5.25L3 6V18L3.75 18.75H20.25L21 18V6L20.25 5.25H3.75ZM4.5 7.6955V17.25H19.5V7.69525L11.9999 14.5136L4.5 7.6955ZM18.3099 6.75H5.68986L11.9999 12.4864L18.3099 6.75Z" fill="#080341"></path> </g></svg>')
         const emailSvgString = renderToStaticMarkup(<EmailSVG />);
-
+        const resumeHTMLHeight = document.getElementById("resume")?.clientHeight
         const svgBlob = new Blob([emailSvgString], { type: 'image/svg+xml;charset=utf-8' });
         const url = URL.createObjectURL(svgBlob);
     
@@ -43,12 +43,13 @@ const Resume = ()=>{
         await doc.html(document.getElementById("resume") as HTMLElement,{callback: function (doc) {
             return doc;
           },
+          margin:[resumeHTMLHeight!/(ptToPx(pageHeight))*10,0],
         //   width: 50,
         //   windowWidth: 50, 
               html2canvas: {
                 scale:0.75,
                   letterRendering: true,
-                  backgroundColor: "white"
+                  backgroundColor: "white",
                 //   height:300
               },
           x: 0,
@@ -57,7 +58,14 @@ const Resume = ()=>{
           img.onload = () => {
             doc.addImage(img, 'SVG', 10, 10, 44, 44); // Adjust the position and size as needed
         }; 
+        console.log('heights',pageHeight,document.getElementById("resume")?.clientHeight,document.getElementById("resume")?.offsetHeight,document.getElementById("resume")?.scrollHeight)
+        console.log(window.scrollY + document.querySelector('#skill')!.getBoundingClientRect()?.top)
+        
         doc.output("dataurlnewwindow")
+    }
+
+    function ptToPx(pt:number){
+        return pt / 72 * 96
     }
 
     useEffect(()=>{
@@ -79,7 +87,7 @@ const Resume = ()=>{
     return(
         <>
         <div className="flex justify-around mt-10 mb-10">
-            <div id="resume" className="flex flex-col px-8 border-2 w-[793px] h-[1122px]">
+            <div id="resume" className="flex flex-col px-8 border-2 w-[793px] h-fit pb-10">
                 <div className="mt-7 flex justify-between">
                     <div className="flex flex-col">
                         <h3 className="text-3xl">{name}</h3>
@@ -117,7 +125,33 @@ const Resume = ()=>{
                                 <label htmlFor="">{expMap.get("start_date") as string} |</label>
                                 <label htmlFor="">{expMap.get("end_date") as string}</label>
                             </div>
-                            <p>{expMap.get("experience_summary") as string}</p>
+                            <p>
+                                {(expMap.get("experience_summary") as string).split(".")
+                                .map((line,index)=>line!=""?(<li key={index}>{line}.<br /></li>):<></>)}
+                            </p>
+                            </>    
+                        )
+                    })}                    
+                    </div>
+                </div>
+                <div className="mt-7 flex flex-col">
+                    <h2 className="text-2xl">Education</h2>
+                    <div className="flex flex-col gap-1">
+                    {education.map((edu)=>{
+                        let eduMap = new Map(Object.entries(edu))
+                        return(
+                            <>
+                            <div key={edu} className="mt-2 flex gap-1">
+                                <label htmlFor="">{eduMap.get("education_name") as string} | </label>
+                                <label htmlFor="">{eduMap.get("education_course") as string} | </label>
+                                <label htmlFor="">{eduMap.get("education_field_of_study") as string} | </label>
+                                <label htmlFor="">{eduMap.get("start_date") as string} |</label>
+                                <label htmlFor="">{eduMap.get("end_date") as string}</label>
+                            </div>
+                            <p>
+                                {(eduMap.get("education_summary") as string).split(".")
+                                .map((line,index)=>line!=""?(<li key={index}>{line}.<br /></li>):<></>)}
+                            </p>
                             </>    
                         )
                     })}                    
@@ -135,7 +169,12 @@ const Resume = ()=>{
                                         <label htmlFor="">{projMap.get("project_link") as string} | </label>
                                     </div>
                                     <label htmlFor="">{projMap.get("project_technologies_used") as string}</label>
-                                    <p>{projMap.get("project_description") as string}</p>
+                                    <p>
+                                        {(projMap.get("project_description") as string).split(/(?<=\.)\s+(?=[A-Z])/)
+                                            .map((sentence, index) => (
+                                                <li key={index}>{sentence.trim()}</li>
+                                            ))}
+                                    </p>
                                 </>
                             )
                         })}
@@ -156,7 +195,7 @@ const Resume = ()=>{
                     })}      
                     </div>
                 </div>
-                <div className="mt-7 flex flex-wrap gap-2">
+                <div id="skill" className="mt-7 flex flex-wrap gap-2">
                     <div className=" w-[300px] border-r-2">
                         <h2 className="text-2xl">Skills</h2>
                         {skills.map((skill) => (

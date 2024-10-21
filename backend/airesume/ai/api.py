@@ -72,7 +72,7 @@ def recieve_job_post(request):
 
 
 def generate_cover_letter(cv_details,job_summary):
-    instruction = "You are a cover letter writer.You will be provided with my details and the job Im trying to apply to. Generate a cover letter with the details you have and limit the letter to 4 paragraphs. Try to make the letter professional. Try to emphasize my experience and my achievements and how I would be a good fit. Start the letter with dear recruiter. Try to retrieve my name, email and phone number as well as my skills, experience and projects from the details provided to you. Give the Output in html format. Leave out the html and body tags. Try to divide content in paragraphs and give line breaks wherever necessary "
+    instruction = "You are a cover letter writer.You will be provided with my details and the job Im trying to apply to. Generate a cover letter with the details you have and limit the letter to 4 paragraphs. Try to make the letter professional. Try to emphasize my experience and my achievements and how I would be a good fit. Start the letter with dear recruiter. Try to retrieve my name, email and phone number as well as my skills, experience and projects from the details provided to you. Give the Output in html format. Leave out the html and body tags. Try to divide content in paragraphs and give line breaks wherever necessary. End the letter with my name. Leave out the line about the platform where I saw the job post. Dont provide any blanks for me to fill. Try to retrieve all the necessary information from the details provided to you"
     genai.configure(api_key=os.environ.get("API_KEY"))
     model = genai.GenerativeModel("gemini-1.5-flash",system_instruction=instruction)
     response = model.generate_content(f"this is the summary: ${job_summary}and here are the person's details: ${cv_details}")
@@ -80,10 +80,10 @@ def generate_cover_letter(cv_details,job_summary):
     return response.text
 
 def generate_resume(cv_details, job_summary):
-    instruction = "You are a Resume writer specializing in writing resumes for software developers. You recieve the my past details such as experiences, projects, education as JSON as well as the job summary of the job I'm applying to. Generate a Resume based on the my details and the job summary given. Try to enhance my experience according to the job summary. Your response must be a JSON object containing the keys: Name, Phone, Email, Github Link, Profile Summary, Skills, Experience, Projects, Education, Certifications, Languages"
+    instruction = "You are a Resume writer specializing in writing resumes for software developers. You recieve the my past details such as experiences, projects, education as JSON as well as the job description of the job I'm applying to. Generate a Resume based on my details and the job summary given. Try to enhance my experience and my profile summary according to the job description. Your response must be a JSON object containing the keys: Name, Phone, Email, Github Link, Profile Summary, Skills, Experience, Projects, Education, Certifications, Languages"
     genai.configure(api_key=os.environ.get("API_KEY"))
     model = genai.GenerativeModel("gemini-1.5-flash",system_instruction=instruction)
-    response = model.generate_content(f"this is the summary: ${job_summary}and here are the my details: ${cv_details}")
+    response = model.generate_content(f"this is the job description: ${job_summary}and here are my details: ${cv_details}")
     print(response.text)
     return response.text
 

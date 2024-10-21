@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import { json } from "stream/consumers"
 import DisplayExperience from "./displayExperience"
 import DisplayProjects from "./displayProjects"
 import { DownwardsSVG, SidewardsSVG } from "@/assets/svgs"
