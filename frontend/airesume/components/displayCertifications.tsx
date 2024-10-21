@@ -71,7 +71,7 @@ const DisplayCertifications:React.FC<DisplayCertificationsProps> = ({certificati
 
     return(
         <>
-            <div key={refreshKey} ref={divRef} className="bg-primary w-full px-12 py-5 rounded-md">
+            <div key={refreshKey} ref={divRef} className="bg-primary w-full px-12 py-5 rounded-md text-white">
                 {updatedCertifications.map((cert,index)=>{
                     return(
                         <div id={`${index.toString()}`} key={index}>

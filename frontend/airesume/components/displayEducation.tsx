@@ -82,7 +82,7 @@ const DisplayEducation:React.FC<DisplayEducationProps> = ({educations})=>{
 
     return(
         <>
-            <div ref={divRef} key={refreshKey} className="bg-primary w-full px-12 py-5 rounded-md">
+            <div ref={divRef} key={refreshKey} className="bg-primary w-full px-12 py-5 rounded-md text-white">
                 {updatedEducation.map((edu,index)=>{
                     return(
                         <div id={`${index.toString()}`} key={index}>

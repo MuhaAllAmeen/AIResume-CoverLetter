@@ -81,7 +81,7 @@ const DisplayProjects:React.FC<DisplayProjectsProps> = ({projects})=>{
             <div key={refreshKey} ref={divRef} className="bg-primary text-white w-full px-12 py-5 rounded-md">
                 {updatedProjects.map((project,index)=>{
                     return(
-                        <div id={`${index.toString()}`} key={index}>
+                        <div id={`${index.toString()}`} key={index} className="mb-5">
                         <div className="flex gap-2 items-center">
                            <label htmlFor="" className="font-semibold">Project {index+1}</label>
                             <span className="cursor-pointer" onClick={() =>{toggleEditField(index)}}><EditSVG/></span> 

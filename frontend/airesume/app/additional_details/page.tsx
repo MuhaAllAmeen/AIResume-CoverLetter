@@ -60,7 +60,7 @@ const AdditionalDetails =()=>{
             additionalDetails.set(`language-${index}-language_name`,lang.name)
             additionalDetails.set(`language-${index}-language_fluency`,lang.fluency)
         })
-        additionalDetails.set("LaguageNumber",languages.length.toString())
+        additionalDetails.set("LanguageNumber",languages.length.toString())
 
 
         const updatedDetails = new Map(details);
