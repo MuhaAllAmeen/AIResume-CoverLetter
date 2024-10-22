@@ -33,7 +33,6 @@ const AdditionalDetails =()=>{
 
     useEffect(()=>{
         const container = containerRef.current;
-        console.log(container,currentComponent)
         if (container) {
             container.addEventListener('scroll', handleScroll);
             return () => {

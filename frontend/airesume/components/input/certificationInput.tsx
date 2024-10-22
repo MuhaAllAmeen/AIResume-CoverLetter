@@ -33,13 +33,3 @@ const CertificationInput: React.FC<CertificationInputProps> = ({ index, onAddCer
 
 export default CertificationInput
 
-// {() => {
-//     let certificateName = (document.querySelector(`input[name="certificate-name-${index}"]`) as HTMLInputElement)?.value;
-//     let certificateLink = (document.querySelector(`input[name="certificate-link-${index}"]`) as HTMLInputElement)?.value;
-//         let certificateMap = new Map<string, string>();
-//         if (certificateName && certificateLink) {
-//             certificateMap.set(certificateName, certificateLink);
-//         }
-//         console.log(certificateName,index)
-//         onAddCertificate(certificateMap)}
-//         }

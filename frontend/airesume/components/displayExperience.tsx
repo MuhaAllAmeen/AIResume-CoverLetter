@@ -43,16 +43,13 @@ const DisplayExperience:React.FC<DisplayExperienceProps> = ({experiences})=>{
         }
     }
     useEffect(()=>{
-        console.log(edit,updatedExperiences)
         if(edit){
             if (divRef.current){
                 const experienceContainer = divRef.current.querySelector(`div[id="${editIndex}"]`);
                 if (experienceContainer) {
                     const allFields = Array.from(experienceContainer.querySelectorAll('p') as unknown as Array<HTMLElement>);                // const allFields = document.querySelectorAll(`#${editIndex?.toString()} p`)
-                console.log(allFields)
             for (let i =0; i<allFields.length; i++){
                 const field = allFields[i]
-                console.log('field',field)
 
                 if(field?.id=="summary"){
                     let newElement = document.createElement('textarea');
@@ -68,7 +65,6 @@ const DisplayExperience:React.FC<DisplayExperienceProps> = ({experiences})=>{
                     newElement.className="text-black w-fit"
                     newElement.type = field.id.endsWith("date") ? "date" : "text"
                     field?.replaceWith(newElement);
-                    console.log(newElement)    
                 }          
             }
         }

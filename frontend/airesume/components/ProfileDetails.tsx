@@ -23,9 +23,7 @@ const ProfileDetails:React.FC<ProfileDetailsProps> =({content})=>{
         Certifications,
         Language
     }
-    useEffect(()=>{
-        console.log("ww",details, details.get("Experience"))
-    }, [details])
+    
     
     return(
         <>

@@ -11,7 +11,6 @@ const JobSummary = ()=>{
     const searchParams = useSearchParams()
     const action = searchParams.get("action")
     async function onNext(){
-        console.log("summary",summary)
         if(summary!=""){
             setIsLoading(true)
             if(action == "Cover Letter"){

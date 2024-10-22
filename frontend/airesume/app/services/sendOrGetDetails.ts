@@ -29,9 +29,7 @@ export async function sendDetailstoBackend(){
         formData.append('language-INITIAL_FORMS', '0');
         formData.append('language-MIN_NUM_FORMS', '1');
         formData.append('language-MAX_NUM_FORMS', '10');
-        formData.forEach((value, key) => {
-            console.log(`form ${key}: ${value}`);
-          });
+        
         const response = await apiService.post('api/cv_details/create/',formData)
         return response
     }

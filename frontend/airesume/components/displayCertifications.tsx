@@ -42,23 +42,19 @@ const DisplayCertifications:React.FC<DisplayCertificationsProps> = ({certificati
     }
 
     useEffect(()=>{
-        console.log(edit,updatedCertifications)
         if(edit){
             if (divRef.current){
                 const certificationContainer = divRef.current.querySelector(`div[id="${editIndex}"]`);
                 if (certificationContainer) {
                     const allFields = Array.from(certificationContainer.querySelectorAll('p') as unknown as Array<HTMLElement>);                // const allFields = document.querySelectorAll(`#${editIndex?.toString()} p`)
-                console.log(allFields)
                     for (let i =0; i<allFields.length; i++){
                         const field = allFields[i]
-                        console.log('field',field)
                         let newElement = document.createElement('input');
                         newElement.id=field.id
                         newElement.value = field?.innerText || ""
                         newElement.className="text-black w-fit"
                         newElement.type = field.id == "certification_link" ? "url" : "text"
                         field?.replaceWith(newElement);
-                        console.log(newElement)    
                     }          
             
                 }

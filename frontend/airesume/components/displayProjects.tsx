@@ -43,13 +43,11 @@ const DisplayProjects:React.FC<DisplayProjectsProps> = ({projects})=>{
         }
     }
     useEffect(()=>{
-        console.log(edit,updatedProjects)
         if(edit){
             if (divRef.current){
             const projectContainer = divRef.current.querySelector(`div[id="${editIndex}"]`);
                 if (projectContainer) {
                 const allFields = Array.from(projectContainer.querySelectorAll('p') as unknown as Array<HTMLElement>);
-                    console.log(allFields)
                     for (let i =0; i<allFields.length; i++){
                         const field = allFields[i]
                         if(field?.id=="summary"){
@@ -66,7 +64,6 @@ const DisplayProjects:React.FC<DisplayProjectsProps> = ({projects})=>{
                             newElement.className="text-black w-fit"
                             newElement.type = field.id.endsWith("date") ? "date" : "text"
                             field?.replaceWith(newElement);
-                            console.log(newElement)    
                         }  
                     }
                 }        

@@ -12,7 +12,6 @@ const EducationDetails = ()=>{
     const [educationList,setEducationList] = useState<Array<Map<string,string>>>([])
 
     function saveEducationDetails(educationDetails:Map<string,string>,index:number){
-        console.log(educationDetails)
         if(educationList.at(index)==null){
             setEducationList((eduList)=>[...eduList, educationDetails])     
         }else{

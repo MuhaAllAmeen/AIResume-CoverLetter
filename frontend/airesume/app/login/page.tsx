@@ -25,14 +25,12 @@ const Login=()=>{
     const sendLogin = async(e:React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault()
         setIsLoading(true)
-        console.log(isLoading)
         const formData = {
             username:username,
             email: email,
             password: password,
         }
         const response = await apiService.postWithoutToken('api/auth/login/',JSON.stringify(formData))
-        console.log(response)
         if(response.access){
             await handleLogin(response.user.pk, response.access, response.refresh,response.user.username)
             setIsLoading(false)
@@ -43,12 +41,9 @@ const Login=()=>{
                 return error;
             })
             setErrors(tmpErrors)
-            console.log(error)
         }
     }
-    useEffect(()=>{
-        console.log(isLoading)
-    },[isLoading])
+    
     return (
         <>
             <div className="flex justify-evenly  h-screen w-full">

@@ -11,9 +11,7 @@ const ExperienceDetails = ()=>{
     const [experienceInputList,setExperienceInputList] = useState([<ExperienceInput index={0} onChange={saveExperienceDetails}/>])
     const [experienceList,setExperienceList] = useState<Array<Map<string,string>>>([])
     
-    useEffect(()=>{
-        console.log('expList',experienceList,experienceList.length)
-    },[experienceList])
+    
 
     function saveExperienceDetails(experienceDetails:Map<string,string>,index:number){
         if(experienceList.at(index)==null){
@@ -30,7 +28,6 @@ const ExperienceDetails = ()=>{
         const updatedDetails = new Map(details);
         if (experienceList.length > 0) {
             sessionStorage.setItem("ExperienceNumber",experienceList.length.toString())
-            console.log(experienceList)
             const experienceArray = experienceList.map(exp => {
                 // const obj: Record<string, string> = {};
                 exp.forEach((value, key) => {
@@ -45,7 +42,6 @@ const ExperienceDetails = ()=>{
         } else {
             alert("Please press confirm")
         }
-        console.log("upd",updatedDetails)
         
     }
 

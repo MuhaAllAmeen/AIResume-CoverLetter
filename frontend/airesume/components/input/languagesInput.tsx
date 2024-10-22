@@ -35,9 +35,7 @@ export default function LanguagesInput() {
     setInputFields(values);
   };
 
-  useEffect(()=>{
-    console.log('languages',languages)
-  },[languages])
+  
   // Handle adding a new language
   const handleAddLanguage = (index:number) => {
     const selectedLanguage = inputFields[index];

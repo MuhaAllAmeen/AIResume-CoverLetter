@@ -8,7 +8,6 @@ const CVDetails = ()=>{
     const { details, setDetails } = useDetails();
     
     function saveBasicDetails(basicDetails:Map<string,string>){
-        console.log(basicDetails)
         setDetails(basicDetails)
         router.replace('/experience_details');
 

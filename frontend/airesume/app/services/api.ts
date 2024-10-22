@@ -4,7 +4,6 @@ const mainurl='https://c4f6425c-7a99-428f-bd6c-0bde7a29e859-dev.e1-us-east-azure
 const apiService = {
     get: async function (url: string): Promise<any>{
         const token = await getAccessToken()
-        console.log(mainurl,url,token)
         return new Promise((resolve,reject)=>{
             fetch(`${mainurl}${url}`,{
                 method:"GET",
@@ -14,7 +13,7 @@ const apiService = {
                     'Authorization': `Bearer ${token}`
                 }
             })
-            .then(response => {console.log(response); return response.json()})
+            .then(response =>  response.json())
             .then((data)=>{
                 resolve(data);
             })

@@ -31,7 +31,6 @@ export default function Register(){
             password2: password2
             }
             const response = await apiService.postWithoutToken('api/auth/register/',JSON.stringify(formData))
-            console.log(response)
             if(response.access){
                 await handleLogin(response.user.pk, response.access, response.refresh,response.user.username)
                 setIsLoading(false)
@@ -42,7 +41,6 @@ export default function Register(){
                     return error;
                 })
                 setErrors(tmpErrors)
-                console.log(error)
             }
         }else{
             alert("Passwords are not same")

@@ -31,7 +31,6 @@ const DisplayLanguages:React.FC<DisplayCertificationsProps> = ({languages})=>{
         allField.forEach((field) => {
             edittedLangObject[field.id] = field.value; // Set the field value directly
         });
-        console.log(edittedLangObject)
 
         const response = await apiService.putContent("api/cv_details/edit/",JSON.stringify({id:id,table:"Languages",details:edittedLangObject}))
         if(response.success){
@@ -45,16 +44,13 @@ const DisplayLanguages:React.FC<DisplayCertificationsProps> = ({languages})=>{
     }
 
     useEffect(()=>{
-        console.log(edit,updatedLanguages)
         if(edit){
             if (divRef.current){
                 const languageContainer = divRef.current.querySelector(`div[id="${editIndex}"]`);
                 if (languageContainer) {
                     const allFields = Array.from(languageContainer.querySelectorAll('p') as unknown as Array<HTMLElement>);                // const allFields = document.querySelectorAll(`#${editIndex?.toString()} p`)
-                console.log(allFields)
                     for (let i =0; i<allFields.length; i++){
                         const field = allFields[i]
-                        console.log('field',field)
                         if (field.id=="language_fluency"){
                             let newElement = document.createElement('select');
                             newElement.id=field.id
@@ -67,7 +63,6 @@ const DisplayLanguages:React.FC<DisplayCertificationsProps> = ({languages})=>{
                             })
                             newElement.className="text-black w-fit"
                         field?.replaceWith(newElement);
-                        console.log(newElement) 
 
 
                         }else{
@@ -76,7 +71,6 @@ const DisplayLanguages:React.FC<DisplayCertificationsProps> = ({languages})=>{
                         newElement.value = field?.innerText || ""
                         newElement.className="text-black w-fit"
                         field?.replaceWith(newElement);
-                        console.log(newElement) 
                         }
                            
                     }          

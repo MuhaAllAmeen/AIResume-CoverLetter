@@ -12,7 +12,6 @@ const CertificationInputHandler = () =>{
             ...prevComponents,
             <CertificationInput onAddCertificate={appendToCertificateList} key={prevComponents.length} index={prevComponents.length}  />
         ]);        
-        console.log(certificateInputList)
     }
 
     function appendToCertificateList(certificateMap:Map<string,string>,index:number){

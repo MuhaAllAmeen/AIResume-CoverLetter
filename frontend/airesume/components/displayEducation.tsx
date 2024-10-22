@@ -44,16 +44,13 @@ const DisplayEducation:React.FC<DisplayEducationProps> = ({educations})=>{
     }
 
     useEffect(()=>{
-        console.log(edit,updatedEducation)
         if(edit){
             if (divRef.current){
                 const educationContainer = divRef.current.querySelector(`div[id="${editIndex}"]`);
                 if (educationContainer) {
                     const allFields = Array.from(educationContainer.querySelectorAll('p') as unknown as Array<HTMLElement>);                // const allFields = document.querySelectorAll(`#${editIndex?.toString()} p`)
-                console.log(allFields)
             for (let i =0; i<allFields.length; i++){
                 const field = allFields[i]
-                console.log('field',field)
 
                 if(field?.id=="summary"){
                     let newElement = document.createElement('textarea');
@@ -69,7 +66,6 @@ const DisplayEducation:React.FC<DisplayEducationProps> = ({educations})=>{
                     newElement.className="text-black w-fit"
                     newElement.type = field.id.endsWith("date") ? "date" : "text"
                     field?.replaceWith(newElement);
-                    console.log(newElement)    
                 }          
             }
         }

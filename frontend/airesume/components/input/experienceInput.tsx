@@ -31,7 +31,6 @@ const ExperienceInput:React.FC<ExperienceInputProps> = ({onChange,index}) =>{
         }
         experienceDetailsMap.set(formNumber+'experience_summary',summary)
         onChange(experienceDetailsMap,index)
-        console.log("ex",experienceDetailsMap)
 
     }
     

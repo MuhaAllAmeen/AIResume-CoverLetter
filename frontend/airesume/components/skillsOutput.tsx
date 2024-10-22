@@ -11,13 +11,10 @@ const SkillsOutput = ()=>{
     // const { skills, setSkills } = useSkills();
     const { skills, setSkills } = useDetails();
 
-    // useEffect(()=>{
-    //     setEditedSkills(skills)
-    // },[skills])
+    
 
     const removeSkills = (index:number) =>{
         setSkills(skills => skills.filter((_, i) => i !== index));
-        // console.log(skills.splice(index,1))
     }
     return (
         <>

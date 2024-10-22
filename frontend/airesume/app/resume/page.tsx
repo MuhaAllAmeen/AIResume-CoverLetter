@@ -64,8 +64,6 @@ const Resume = ()=>{
           img.onload = () => {
             doc.addImage(img, 'SVG', 10, 10, 44, 44); // Adjust the position and size as needed
         }; 
-        console.log('heights',pageHeight,document.getElementById("resume")?.clientHeight,document.getElementById("resume")?.offsetHeight,document.getElementById("resume")?.scrollHeight)
-        console.log(window.scrollY + document.querySelector('#skill')!.getBoundingClientRect()?.top)
         
         doc.output("dataurlnewwindow")
     }
@@ -75,7 +73,6 @@ const Resume = ()=>{
     }
 
     useEffect(()=>{
-        console.log(resumeMap)
         if(resumeMap.size > 0){
             setName(resumeMap.get("Name") as string)
             setPhone(resumeMap.get("Phone") as string)

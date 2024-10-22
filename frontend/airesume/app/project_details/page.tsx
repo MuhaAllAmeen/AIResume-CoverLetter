@@ -12,7 +12,6 @@ const ProjectDetails = ()=>{
     const [projectList,setProjectList] = useState<Array<Map<string,string>>>([])
 
     function saveProjectDetails(projectDetails:Map<string,string>,index:number){
-        console.log(projectDetails)
         if(projectList.at(index)==null){
             setProjectList((projList)=>[...projList, projectDetails])     
         }else{
@@ -43,10 +42,7 @@ const ProjectDetails = ()=>{
         }
         
     }
-    useEffect(()=>{
-        console.log(details)
-        
-    },[details])
+    
     return (
         <>
             <div className="flex flex-col gap-4 justify-center items-center min-h-screen">
