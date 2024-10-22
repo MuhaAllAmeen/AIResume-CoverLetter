@@ -4,8 +4,8 @@ import { cookies } from "next/headers";
 
 export async function handleRefresh(){
     const refreshToken = await getRefreshToken()
-
-    const token = await fetch('http://localhost:8000/api/auth/token/refresh/',{
+    console.log(refreshToken)
+    const token = await fetch('https://c4f6425c-7a99-428f-bd6c-0bde7a29e859-dev.e1-us-east-azure.choreoapis.dev/ai-resumecoverletter-gene/backend/v1.0/api/auth/token/refresh/',{
         method: 'POST',
         body: JSON.stringify({
             refresh: refreshToken

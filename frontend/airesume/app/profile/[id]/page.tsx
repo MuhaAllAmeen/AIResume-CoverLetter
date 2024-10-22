@@ -4,9 +4,9 @@ import ProfileDetails from "@/components/ProfileDetails"
 import { useEffect } from "react"
 
 const Profile = async ({params}:{params:{id:string}}) =>{
-    const details = await apiService.get(`api/cv_details/${params.id}`)
+    const details = await apiService.get(`api/cv_details/${params.id}/`)
     const userName = await getUserName()
-    if(details.success){
+    if(details?.success){
         return(
             <>
             <main className="mt-10 ml-10">
@@ -25,6 +25,7 @@ const Profile = async ({params}:{params:{id:string}}) =>{
             <div className="flex flex-col gap-5 justify-center items-center h-[500px]">
                 <h1 className="text-5xl text-red-500">No Data</h1>    
                 <a href="/">Get Back</a>
+                
             </div>
         )
     }
