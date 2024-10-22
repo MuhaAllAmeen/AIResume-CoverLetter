@@ -57,7 +57,7 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend"
 )
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["backend-532412705.dp-development-airesumecoverlette-52622-2243129872"]
 AUTH_USER_MODEL = 'useraccount.User'
 ACCOUNT_USER_MODEL_USERNAME_FIELD = 'username'
 ACCOUNT_EMAIL_REQUIRED = True
